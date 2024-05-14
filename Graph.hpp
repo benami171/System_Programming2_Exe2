@@ -31,6 +31,7 @@ public:
 
 // MULTIPLICATION OPERATORS
     Graph operator*(const Graph &g);
+    Graph& operator*=(const int &scalar);
 
 // DIVISION OPERATORS
 

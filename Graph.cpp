@@ -320,6 +320,18 @@ namespace ariel
         return resGraph;
     }
 
+    // Overloading the *= operator to multiply the graph by a scalar.
+    Graph& Graph::operator*=(const int &scalar)
+    {
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                this->adjacencyMatrix[i][j] *= scalar;
+            }
+        }
+        return *this;
+    }
 
 
     // Overloading the << operator to print the adjacency matrix of the graph.
