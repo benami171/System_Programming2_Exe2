@@ -137,88 +137,7 @@ namespace ariel
         return this->weightType;
     }
 
-    /*
-            implementing - operator overloading.
-    */
-  
-    // Overloading the - operator to subtract two graphs together
-    // by subtracting their adjacency matrices.
-    Graph Graph::operator-(const Graph &g){
-        Graph resGraph;
-
-        // check if the matrices have the same dimensions
-        if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
-            this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
-        {
-            throw invalid_argument("The matrices should have the same dimensions.");  
-        }
-
-        vector<vector<int>> resMatrix;
-        // iterating over each row of the matrix.
-        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
-        {
-            // creating an empty row to store the subtraction of the two matrices.
-            vector<int> row; 
-            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
-            {
-                // subtracting the corresponding elements of the two matrices.
-                row.push_back(this->adjacencyMatrix[i][j] - g.adjacencyMatrix[i][j]);
-            }
-            // adding the row to the result matrix.
-            resMatrix.push_back(row);
-        }
-
-        resGraph.loadGraph(resMatrix);
-        return resGraph;
-
-    }
-
-    /*
-            implementing * operator overloading.
-    */
-
-
-    // Graph Graph:: operator*(const Graph &g)
-    // {
-    //     Graph resGraph;
-    //     vector<vector<int>> resMatrix;
-    //     // check if the matrices have the same dimensions
-    //     if (this->adjacencyMatrix[0].size() != g.adjacencyMatrix.size())
-    //     {
-    //         throw invalid_argument("The number of columns in the first matrix must be equal to the number of rows in the second matrix.");
-    //     }
-
-    //     // iterating over each row of the first matrix.
-    //     for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
-    //     {
-    //         // creating an empty row to store the multiplication of the two matrices.
-    //         vector<int> row;
-    //         for (size_t j = 0; j < g.adjacencyMatrix[0].size(); j++)
-    //         {
-    //             int sum = 0;
-    //             // iterating over each column of the second matrix.
-    //             for (size_t k = 0; k < g.adjacencyMatrix.size(); k++)
-    //             {
-    //                 // multiplying the corresponding elements of the two matrices.
-    //                 // and adding the result to the sum.
-    //                 sum += this->adjacencyMatrix[i][k] * g.adjacencyMatrix[k][j];
-    //             }
-    //             // adding the sum to the row.
-    //             row.push_back(sum);
-    //         }
-    //         // adding the row to the result matrix.
-    //         resMatrix.push_back(row);
-    //     }
-
-    //     resGraph.loadGraph(resMatrix);
-    //     return resGraph;
-    // }
-
-
-
-
-
-
+    
 
     /*
             implementing + operator overloading.
@@ -255,6 +174,153 @@ namespace ariel
         return resGraph;
 
     }
+
+    /*
+            implementing += operator overloading.
+    */
+    // Overloading the += operator to add two graphs together
+    // by adding their adjacency matrices.
+    Graph& Graph::operator+=(const Graph &g){
+        // check if the matrices have the same dimensions
+        if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
+            this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
+        {
+            throw invalid_argument("The matrices should have the same dimensions.");  
+        }
+
+        // iterating over each row of the matrix.
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                // adding the corresponding elements of the two matrices.
+                this->adjacencyMatrix[i][j] += g.adjacencyMatrix[i][j];
+            }
+        }
+
+        return *this;
+    }
+
+    // Unary plus operator overloading, returns the graph itself.
+    // made it const to avoid changing the graph, and because it doesn't need to change it.
+    Graph Graph::operator+() const
+    {
+        return *this;
+    }
+
+    /*
+            implementing - operator overloading.
+    */
+  
+    // Overloading the - operator to subtract two graphs together
+    // by subtracting their adjacency matrices.
+    Graph Graph::operator-(const Graph &g){
+        Graph resGraph;
+
+        // check if the matrices have the same dimensions
+        if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
+            this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
+        {
+            throw invalid_argument("The matrices should have the same dimensions.");  
+        }
+
+        vector<vector<int>> resMatrix;
+        // iterating over each row of the matrix.
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            // creating an empty row to store the subtraction of the two matrices.
+            vector<int> row; 
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                // subtracting the corresponding elements of the two matrices.
+                row.push_back(this->adjacencyMatrix[i][j] - g.adjacencyMatrix[i][j]);
+            }
+            // adding the row to the result matrix.
+            resMatrix.push_back(row);
+        }
+
+        resGraph.loadGraph(resMatrix);
+        return resGraph;
+
+    }
+
+    Graph& Graph::operator-=(const Graph &g){
+        // check if the matrices have the same dimensions
+        if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
+            this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
+        {
+            throw invalid_argument("The matrices should have the same dimensions.");  
+        }
+
+        // iterating over each row of the matrix.
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                // subtracting the corresponding elements of the two matrices.
+                this->adjacencyMatrix[i][j] -= g.adjacencyMatrix[i][j];
+            }
+        }
+
+        return *this;
+    }
+
+
+    // Unary minus operator overloading, returns the graph with all its elements negated.
+    Graph Graph::operator-() const{
+        Graph resGraph(*this);
+        for (size_t i = 0; i < resGraph.adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = 0; j < resGraph.adjacencyMatrix[i].size(); j++)
+            {
+                resGraph.adjacencyMatrix[i][j] = -resGraph.adjacencyMatrix[i][j];
+            }
+        }
+
+        return resGraph;
+    }
+
+    /*
+            implementing * operator overloading.
+    */
+
+    Graph Graph:: operator*(const Graph &g)
+    {
+        Graph resGraph;
+        vector<vector<int>> resMatrix;
+        // check if the matrices have the same dimensions
+        if (this->adjacencyMatrix[0].size() != g.adjacencyMatrix.size())
+        {
+            throw invalid_argument("The number of columns in the first matrix must be equal to the number of rows in the second matrix.");
+        }
+
+        // iterating over each row of the first matrix.
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            // creating an empty row to store the multiplication of the two matrices.
+            vector<int> row;
+            for (size_t j = 0; j < g.adjacencyMatrix[0].size(); j++)
+            {
+                int sum = 0;
+                // iterating over each column of the second matrix.
+                for (size_t k = 0; k < g.adjacencyMatrix.size(); k++)
+                {
+                    // multiplying the corresponding elements of the two matrices.
+                    // and adding the result to the sum.
+                    sum += this->adjacencyMatrix[i][k] * g.adjacencyMatrix[k][j];
+                }
+                // adding the sum to the row.
+                row.push_back(sum);
+            }
+            // adding the row to the result matrix.
+            resMatrix.push_back(row);
+        }
+
+        resGraph.loadGraph(resMatrix);
+        return resGraph;
+    }
+
+
 
     // Overloading the << operator to print the adjacency matrix of the graph.
     std::ostream &operator<<(std::ostream &os, const Graph &g)

@@ -19,11 +19,22 @@ private:
 
 public:
 
+// ADDITION OPERATORS
     Graph operator+(const Graph &g);
+    Graph& operator+=(const Graph &g);
+    Graph operator+() const;
 
+// SUBTRACTION OPERATORS
+    Graph operator-(const Graph &g);
+    Graph& operator-=(const Graph &g);
+    Graph operator-() const;
+
+// MULTIPLICATION OPERATORS
     Graph operator*(const Graph &g);
 
-    Graph operator-(const Graph &g);
+// DIVISION OPERATORS
+
+
 
     Graph(bool directed = false) : isDirected(directed) {}
     // inline Constructor
