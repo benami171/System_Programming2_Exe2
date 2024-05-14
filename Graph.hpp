@@ -18,6 +18,13 @@ private:
     size_t numVertices;
 
 public:
+
+    Graph operator+(const Graph &g);
+
+    Graph operator*(const Graph &g);
+
+    Graph operator-(const Graph &g);
+
     Graph(bool directed = false) : isDirected(directed) {}
     // inline Constructor
     
@@ -39,8 +46,11 @@ public:
     
     void setIsDirected(bool type);
 
-    vector<vector<int>> getAdjacencyMatrix();
+    vector<vector<int>> getAdjacencyMatrix() const;
 
+    friend ostream &operator<<(ostream &os, const Graph &g);
 };
+
+
 }
 #endif

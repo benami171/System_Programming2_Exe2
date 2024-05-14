@@ -8,120 +8,270 @@
 #include <climits>
 
 using namespace std;
-using namespace ariel;
 
-// Determines the weight type of the graph.
-int whatWeightType(vector<vector<int>> &matrix)
+namespace ariel
 {
-    int type = 0;
-    size_t matSize = matrix.size();
-    for (size_t i = 0; i < matSize; i++)
+
+    // Determines the weight type of the graph.
+    int whatWeightType(vector<vector<int>> &matrix)
     {
-        for (size_t j = 0; j < matSize; j++)
+        int type = 0;
+        size_t matSize = matrix.size();
+        for (size_t i = 0; i < matSize; i++)
         {
-            if (matrix[i][j] < 0)
+            for (size_t j = 0; j < matSize; j++)
             {
-                return -1;
-            }
-            else if (matrix[i][j] > 0)
-            {
-                type = 1;
+                if (matrix[i][j] < 0)
+                {
+                    return -1;
+                }
+                else if (matrix[i][j] > 0)
+                {
+                    type = 1;
+                }
             }
         }
+        return type;
     }
-    return type;
-}
 
-// Loads a graph from an adjacency matrix. Throws an exception if the matrix is not square, 
-// if the diagonal is not zero, or if the matrix is not symmetric for an undirected graph.
-void Graph::loadGraph(vector<vector<int>> &matrix)
-{
-    if (matrix.empty() || matrix[0].size()<2)
+    // Loads a graph from an adjacency matrix. Throws an exception if the matrix is not square,
+    // if the diagonal is not zero, or if the matrix is not symmetric for an undirected graph.
+    void Graph::loadGraph(vector<vector<int>> &matrix)
     {
-        throw invalid_argument("Input matrix is empty");
-    }
-    this->numVertices = matrix.size();
-    this->adjacencyMatrix = matrix;
-    size_t matSize = matrix.size();
-
-    for(size_t i = 0; i < matSize; i++){
-        if (matrix[i].size() != matSize){
-            throw invalid_argument("Input matrix is not a square matrix");
+        if (matrix.empty() || matrix[0].size() < 2)
+        {
+            throw invalid_argument("Input matrix is empty");
         }
-        for (size_t j = 0; j < matSize; j++){
-            if (i == j && matrix[i][j] != 0){
-                throw invalid_argument("In adjacency matrix, the diagonal elements should be zeros");
-            }
+        this->numVertices = matrix.size();
+        this->adjacencyMatrix = matrix;
+        size_t matSize = matrix.size();
 
-            if( matrix[i][j] != matrix[j][i] && !this->isDirected){
-                throw invalid_argument("Undirected graph should have symmetric adjacency matrix");
+        for (size_t i = 0; i < matSize; i++)
+        {
+            if (matrix[i].size() != matSize)
+            {
+                throw invalid_argument("Input matrix is not a square matrix");
             }
-        }
-    }
-    this->weightType = whatWeightType(matrix);
-}
+            for (size_t j = 0; j < matSize; j++)
+            {
+                if (i == j && matrix[i][j] != 0)
+                {
+                    throw invalid_argument("In adjacency matrix, the diagonal elements should be zeros");
+                }
 
-// Prints the graph, stating whether it's directed or undirected,
-// and the number of vertices and edges.
-void Graph::printGraph()
-{
-    bool type = getIsDirected();
-    int edges = 0;
-    for (size_t i = 0; i < adjacencyMatrix.size(); ++i){
-        for (size_t j = 0; j < adjacencyMatrix[i].size(); ++j){
-            if (i != j && adjacencyMatrix[i][j] != 0){
-                ++edges;
+                if (matrix[i][j] != matrix[j][i] && !this->isDirected)
+                {
+                    throw invalid_argument("Undirected graph should have symmetric adjacency matrix");
+                }
             }
         }
+        this->weightType = whatWeightType(matrix);
     }
-    if (!this->isDirected){ 
-        edges /= 2;
-        cout << "Undirected graph with " << numVertices << " vertices and " << edges << " edges." << endl;
+
+    // Prints the graph, stating whether it's directed or undirected,
+    // and the number of vertices and edges.
+    void Graph::printGraph()
+    {
+        bool type = getIsDirected();
+        int edges = 0;
+        for (size_t i = 0; i < adjacencyMatrix.size(); ++i)
+        {
+            for (size_t j = 0; j < adjacencyMatrix[i].size(); ++j)
+            {
+                if (i != j && adjacencyMatrix[i][j] != 0)
+                {
+                    ++edges;
+                }
+            }
+        }
+        if (!this->isDirected)
+        {
+            edges /= 2;
+            cout << "Undirected graph with " << numVertices << " vertices and " << edges << " edges." << endl;
+        }
+        else
+        {
+            cout << "Directed graph with " << numVertices << " vertices and " << edges << " edges." << endl;
+        }
     }
-    else{
-        cout << "Directed graph with " << numVertices << " vertices and " << edges << " edges." << endl;
+
+    void Graph::setContainsNegativeCycle(bool flag)
+    {
+        this->containsNegativeCycle = flag;
     }
-}
+
+    bool Graph::getContainsNegativeCycle()
+    {
+        return this->containsNegativeCycle;
+    }
+
+    // check if the graph is directed or undirected
+    // by comparing the adjacency matrix with its transpose
+    void Graph::setIsDirected(bool type)
+    {
+        this->isDirected = type;
+    }
+
+    void Graph::setWeightsType(int type)
+    {
+        this->weightType = type;
+    }
+
+    size_t Graph::getNumVertices()
+    {
+        return numVertices;
+    }
+
+    vector<vector<int>> Graph::getAdjacencyMatrix() const
+    {
+        return adjacencyMatrix;
+    }
+
+    bool Graph::getIsDirected()
+    {
+        return this->isDirected;
+    }
+
+    int Graph::getWeightsType()
+    {
+        return this->weightType;
+    }
+
+    /*
+            implementing - operator overloading.
+    */
+  
+    // Overloading the - operator to subtract two graphs together
+    // by subtracting their adjacency matrices.
+    Graph Graph::operator-(const Graph &g){
+        Graph resGraph;
+
+        // check if the matrices have the same dimensions
+        if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
+            this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
+        {
+            throw invalid_argument("The matrices should have the same dimensions.");  
+        }
+
+        vector<vector<int>> resMatrix;
+        // iterating over each row of the matrix.
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            // creating an empty row to store the subtraction of the two matrices.
+            vector<int> row; 
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                // subtracting the corresponding elements of the two matrices.
+                row.push_back(this->adjacencyMatrix[i][j] - g.adjacencyMatrix[i][j]);
+            }
+            // adding the row to the result matrix.
+            resMatrix.push_back(row);
+        }
+
+        resGraph.loadGraph(resMatrix);
+        return resGraph;
+
+    }
+
+    /*
+            implementing * operator overloading.
+    */
 
 
-void Graph::setContainsNegativeCycle(bool flag)
-{
-    this->containsNegativeCycle = flag;
-}
+    // Graph Graph:: operator*(const Graph &g)
+    // {
+    //     Graph resGraph;
+    //     vector<vector<int>> resMatrix;
+    //     // check if the matrices have the same dimensions
+    //     if (this->adjacencyMatrix[0].size() != g.adjacencyMatrix.size())
+    //     {
+    //         throw invalid_argument("The number of columns in the first matrix must be equal to the number of rows in the second matrix.");
+    //     }
 
-bool Graph::getContainsNegativeCycle()
-{
-    return this->containsNegativeCycle;
-}
+    //     // iterating over each row of the first matrix.
+    //     for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+    //     {
+    //         // creating an empty row to store the multiplication of the two matrices.
+    //         vector<int> row;
+    //         for (size_t j = 0; j < g.adjacencyMatrix[0].size(); j++)
+    //         {
+    //             int sum = 0;
+    //             // iterating over each column of the second matrix.
+    //             for (size_t k = 0; k < g.adjacencyMatrix.size(); k++)
+    //             {
+    //                 // multiplying the corresponding elements of the two matrices.
+    //                 // and adding the result to the sum.
+    //                 sum += this->adjacencyMatrix[i][k] * g.adjacencyMatrix[k][j];
+    //             }
+    //             // adding the sum to the row.
+    //             row.push_back(sum);
+    //         }
+    //         // adding the row to the result matrix.
+    //         resMatrix.push_back(row);
+    //     }
 
-// check if the graph is directed or undirected
-// by comparing the adjacency matrix with its transpose
-void Graph::setIsDirected(bool type)
-{
-    this->isDirected = type;
-}
+    //     resGraph.loadGraph(resMatrix);
+    //     return resGraph;
+    // }
 
-void Graph::setWeightsType(int type)
-{
-    this->weightType = type;
-}
 
-size_t Graph::getNumVertices()
-{
-    return numVertices;
-}
 
-vector<vector<int>> Graph::getAdjacencyMatrix()
-{
-    return adjacencyMatrix;
-}
 
-bool Graph::getIsDirected()
-{
-    return this->isDirected;
-}
 
-int Graph::getWeightsType()
-{
-    return this->weightType;
+
+
+    /*
+            implementing + operator overloading.
+    */
+    // Overloading the + operator to add two graphs together
+    // by adding their adjacency matrices.
+    Graph Graph::operator+(const Graph &g){
+        Graph resGraph;
+
+        // check if the matrices have the same dimensions
+        if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
+            this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
+        {
+            throw invalid_argument("The matrices should have the same dimensions.");  
+        }
+
+        vector<vector<int>> resMatrix;
+        // iterating over each row of the matrix.
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            // creating an empty row to store the sum of the two matrices.
+            vector<int> row; 
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                // adding the corresponding elements of the two matrices.
+                // and storing the sum in the row.
+                row.push_back(this->adjacencyMatrix[i][j] + g.adjacencyMatrix[i][j]);
+            }
+            // adding the row to the result matrix.
+            resMatrix.push_back(row);
+        }
+
+        resGraph.loadGraph(resMatrix);
+        return resGraph;
+
+    }
+
+    // Overloading the << operator to print the adjacency matrix of the graph.
+    std::ostream &operator<<(std::ostream &os, const Graph &g)
+    {
+        for (size_t i = 0; i < g.getAdjacencyMatrix().size(); i++)
+        {
+            os << "[";
+            for (size_t j = 0; j < g.getAdjacencyMatrix()[i].size(); j++)
+            {
+                os << g.getAdjacencyMatrix()[i][j];
+                if (j != g.getAdjacencyMatrix()[i].size() - 1)
+                {
+                    os << ", ";
+                }
+            }
+            os << "]\n";
+        }
+        return os;
+    }
 }
