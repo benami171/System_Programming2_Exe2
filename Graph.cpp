@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include "Graph.hpp"
 #include <climits>
+#include <iomanip>
 
 using namespace std;
 
@@ -61,7 +62,8 @@ namespace ariel
 
                 if (matrix[i][j] != matrix[j][i] && !this->isDirected)
                 {
-                    throw invalid_argument("Undirected graph should have symmetric adjacency matrix");
+                    this->isDirected = true;
+                  //  throw invalid_argument("Undirected graph should have symmetric adjacency matrix");
                 }
             }
         }
@@ -214,14 +216,19 @@ namespace ariel
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
+                if (i!=j){
                 this->adjacencyMatrix[i][j]++;
+                }
             }
         }
         return *this;
     }
 
+    // Overloading the Postfix version of the ++ operator
+    // the int argument is a flag to differentiate between the prefix and postfix versions.
     Graph Graph::operator++(int)
     {
+        // calling copy constructor to copy the graph.
         Graph temp(*this);
         ++*this;
         return temp;
@@ -234,7 +241,9 @@ namespace ariel
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
+                if (i!=j){
                 this->adjacencyMatrix[i][j]--;
+                }
             }
         }
         return *this;
@@ -357,7 +366,11 @@ namespace ariel
             // adding the row to the result matrix.
             resMatrix.push_back(row);
         }
-
+        // resetting the result matrix diagonal to zeroes.
+        for (size_t i = 0; i < resMatrix.size(); i++)
+        {
+            resMatrix[i][i] = 0;
+        }
         resGraph.loadGraph(resMatrix);
         return resGraph;
     }
@@ -400,7 +413,8 @@ namespace ariel
             os << "[";
             for (size_t j = 0; j < g.getAdjacencyMatrix()[i].size(); j++)
             {
-                os << g.getAdjacencyMatrix()[i][j];
+
+                os << std::setw(2) << g.getAdjacencyMatrix()[i][j];
                 if (j != g.getAdjacencyMatrix()[i].size() - 1)
                 {
                     os << ", ";
