@@ -375,6 +375,22 @@ namespace ariel
         return *this;
     }
 
+    /*
+            implementing / operator overloading.
+    */  
+
+    Graph& Graph::operator/=(const int &scalar)
+    {
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                this->adjacencyMatrix[i][j] /= scalar;
+            }
+        }
+        return *this;
+    }
+
 
     // Overloading the << operator to print the adjacency matrix of the graph.
     std::ostream &operator<<(std::ostream &os, const Graph &g)

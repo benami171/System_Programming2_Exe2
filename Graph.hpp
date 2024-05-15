@@ -40,6 +40,18 @@ public:
     Graph& operator*=(const int &scalar);
 
 // DIVISION OPERATORS
+    Graph& operator/=(const int &scalar);
+
+
+// COMPARISON OPERATORS.
+
+    bool operator==(const Graph &g) const;
+    bool operator!=(const Graph &g) const;
+    bool operator<(const Graph &g) const;
+    bool operator>(const Graph &g) const;
+    bool operator<=(const Graph &g) const;
+    bool operator>=(const Graph &g) const;
+    
 
 
 
