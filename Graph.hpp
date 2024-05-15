@@ -24,6 +24,12 @@ public:
     Graph& operator+=(const Graph &g);
     Graph operator+() const;
 
+// INC/DEC OPERATORS
+    Graph& operator++(); // prefix incremention
+    Graph operator++(int); // postfix incremention
+    Graph& operator--(); // prefix decremention
+    Graph operator--(int); // postfix decremention
+
 // SUBTRACTION OPERATORS
     Graph operator-(const Graph &g);
     Graph& operator-=(const Graph &g);

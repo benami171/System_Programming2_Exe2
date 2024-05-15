@@ -208,6 +208,26 @@ namespace ariel
         return *this;
     }
 
+    Graph& Graph::operator++()
+    {
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                this->adjacencyMatrix[i][j]++;
+            }
+        }
+        return *this;
+    }
+
+    Graph Graph::operator++(int)
+    {
+        Graph temp(*this);
+        ++*this;
+        return temp;
+    }
+
+
     /*
             implementing - operator overloading.
     */
