@@ -134,7 +134,6 @@ namespace ariel
         return this->isDirected;
     }
 
-
     int Graph::getWeightsType() const
     {
         return this->weightType;
@@ -165,7 +164,7 @@ namespace ariel
             return edges;
         }
     }
-    
+
     // bool isContains(const Graph &g1, const Graph &g2)
     // {
 
@@ -268,7 +267,7 @@ namespace ariel
     // by adding their adjacency matrices.
     Graph Graph::operator+(const Graph &g)
     {
-        Graph resGraph;
+        Graph resGraph(*this);
 
         // check if the matrices have the same dimensions
         if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
@@ -388,9 +387,9 @@ namespace ariel
 
     // Overloading the - operator to subtract two graphs together
     // by subtracting their adjacency matrices.
-    Graph Graph::operator-(const Graph &g)
+    Graph Graph::operator-(const Graph &g) const
     {
-        Graph resGraph;
+        Graph resGraph(*this);
 
         // check if the matrices have the same dimensions
         if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
@@ -459,13 +458,14 @@ namespace ariel
             implementing * operator overloading.
     */
 
-    Graph Graph::operator*(const Graph &g)
+    Graph Graph::operator*(const Graph &g) const
     {
-        Graph resGraph;
+        Graph resGraph(*this);
         vector<vector<int>> resMatrix;
         // check if the matrices have the same dimensions
         if (this->getNumVertices() != g.getNumVertices())
         {
+
             throw invalid_argument("The size of the matrices is not the same.");
         }
 
@@ -499,6 +499,24 @@ namespace ariel
         }
         resGraph.loadGraph(resMatrix);
         return resGraph;
+    }
+
+    Graph Graph::operator*(int scalar) const
+    {
+        Graph resGraph(*this);
+        for (size_t i = 0; i < resGraph.adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = 0; j < resGraph.adjacencyMatrix[i].size(); j++)
+            {
+                resGraph.adjacencyMatrix[i][j] *= scalar;
+            }
+        }
+        return resGraph;
+    }
+
+    Graph operator*(int scalar, const Graph &g)
+    {
+        return g * scalar;
     }
 
     // Overloading the *= operator to multiply the graph by a scalar.
@@ -549,13 +567,12 @@ namespace ariel
         {
             return true;
         }
-        
+
         // if g doesnt contain this, and this contains g, return false as this>g.
         if (this->isContains(g))
         {
             return false;
         }
-        
 
         // if g and this are not submatrices of each other, then compare the sum of edges.
         size_t thisEdges = this->getNumEdges();
@@ -564,11 +581,11 @@ namespace ariel
         if (thisEdges < gEdges)
         {
             return true;
-        } 
+        }
         else if (thisEdges > gEdges)
         {
             return false;
-        } 
+        }
         else // if thisEdges == gEdges
         {
             if (this->numVertices < g.numVertices)
@@ -606,7 +623,8 @@ namespace ariel
         size_t thisEdges = this->getNumEdges();
         size_t gEdges = g.getNumEdges();
 
-        if (this->numVertices == g.numVertices){
+        if (this->numVertices == g.numVertices)
+        {
             for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
             {
                 for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
@@ -618,13 +636,12 @@ namespace ariel
                 }
             }
             return true;
-        }// if not, check if G1 !< G2 and G2 !< G1
-        else if (!((*this)<(g)) && !(g<(*this)))
+        } // if not, check if G1 !< G2 and G2 !< G1
+        else if (!((*this) < (g)) && !(g < (*this)))
         {
             return true;
         }
         return false;
-
     }
 
     bool Graph::operator!=(const Graph &g) const

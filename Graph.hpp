@@ -31,18 +31,21 @@ public:
     Graph operator--(int); // postfix decremention
 
 // SUBTRACTION OPERATORS
-    Graph operator-(const Graph &g);
+    Graph operator-(const Graph &g) const;
     Graph& operator-=(const Graph &g);
     Graph operator-() const;
 
 // MULTIPLICATION OPERATORS
-    Graph operator*(const Graph &g);
+    Graph operator*(const Graph &g) const;
+    Graph operator*(int scalar) const;
+    // to allow the commutative property of multiplication
+    friend Graph operator*(int scalar, const Graph& g);
     Graph& operator*=(const int &scalar);
 
 // DIVISION OPERATORS
     Graph& operator/=(const int &scalar);
 
-
+ 
 // COMPARISON OPERATORS.
 
     bool operator==(const Graph &g) const;
