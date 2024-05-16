@@ -59,6 +59,8 @@ public:
     // inline Constructor
     
     void setWeightsType(int type);
+
+    friend bool isContained(const Graph& g1, const Graph& g2);
     
     int getWeightsType();
 

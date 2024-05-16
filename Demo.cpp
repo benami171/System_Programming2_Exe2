@@ -73,4 +73,23 @@ int main()
 
     g7 = g7 * g1;
     cout<< g7; // Should print the multiplication of the matrices of g7 and g1: [0, 0, 2], [1, 0, 1], [1, 0, 0]
+
+    vector<vector<int>> graph3 = {
+        {0, 2, 5, 0, 5},
+        {4, 0, 2, 5, 5},
+        {0, 3, 0, 4, 4},
+        {6, 6, 2, 0, 1},
+        {7, 0, 2, 6, 0}};
+
+    g1.loadGraph(graph3); // Load the graph to the object.
+
+    vector<vector<int>> graph4 = {
+        {0, 2, 5},
+        {3, 0, 4},
+        {6, 2, 0}};
+
+    g2.loadGraph(graph4); // Load the graph to the object.
+
+    cout << isContained(g1, g2) << endl; // Should print "1" because g2 is contained in g1.
+
 }

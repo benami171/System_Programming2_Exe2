@@ -60,5 +60,12 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/benami/ss2course/System_Programming2_Exe2",
+            "binaryPath": "/home/benami/ss2course/System_Programming2_Exe2/demo",
+            "binaryArgs": []
+        }
+    ]
 }

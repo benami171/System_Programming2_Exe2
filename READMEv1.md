@@ -19,7 +19,14 @@
 
 - `*=`: This operator is used to multiply the current graph by another graph. It takes a graph as input and modifies the current graph. The adjacency matrix of the current graph is updated to be the matrix product of its own adjacency matrix and the adjacency matrix of the input graph. If the input graph is not of a compatible size for matrix multiplication with the current graph, an exception is thrown.
 
+## Changes made from exe1
 
+### In Graph.cpp , Graph.hpp.
+- `getNumVertices()`: made const method.
+- `loadGraph()`: if the matrix is assymetric and the graph was set to Undirected, it will be set as directed from now and there wont be exception throwing.
+
+### In Algorithms.cpp , Algorithms.hpp.
+-
 
 
 ## How to Run
@@ -34,5 +41,7 @@ The project includes a Makefile for easy compilation and running of the code. He
 - `make clean`: Removes all compiled files.
 
 ## Testing
+
+
 
 
