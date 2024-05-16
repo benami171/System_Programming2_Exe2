@@ -1,23 +1,48 @@
-# מטלה 2 - גרפים והעמסת אופרטורים
+# Graph Operators Project
 
-במטלה הקודמת מימשתם את המחלקה `Graph.cpp` המאפשרת ייצוג של גרפים בעזרת מטריצת שכנויות. במטלה הזאת, אתם תרחיבו את המחלקה ותוסיפו תמיכה באופרטורים חשבוניים על גרפים.
-כאמור, הגרפים מיוצגים בעזרת מטריצת שכנויות, לכן כל האופרטורים צריכים להיות חוקיים עבור מטריצות (כמו שלמדתם בקורס אלגברה לינארית).
+- In this project we demonstrate functions overloading and more specificly operators overloading in C++. 
+- The implementations of the operators are in the `Graph.cpp` class.
 
-אתם תצטרכו להוסיף את האופרטורים הבאים:
+- `+`: This operator is used to add two graphs together. It takes two graphs as input and returns a new graph. If the input graphs are not of the same size, an exception is thrown.
 
-- שישה אופרטורים חשבוניים: חיבור (+) הוספה (+=) פלוס אונרי (+), ושלושת האופרטורים המקבילים לחיסור (-). כאמור, חיבור/חיסור של שתי מטריצות מוגדר רק על מטריצות מאותו סדר גודל nXn. ניסיון לחבר/לחסר שתי מטריצות שלא מקיימות תנאי זה יגרום לזריקת שגיאה.
-- שישה אופרטורי השוואה: גדול, גדול-או-שווה, קטן, קטן-או-שווה, שווה, לא-שווה. לשם מטלה זו כללי השוואת גרפים הם כדלקמן:
+- `+=`: This operator is used to add a graph to the current graph. It takes a graph as input and modifies the current graph. If the input graph is not of the same size as the current graph, an exception is thrown.
 
-  1. גרפים G1 ו-G2 ייקראו שווים אם הם מאותו סדר גודל ומכילים את אותן הצלעות (והמשקלים של הצלעות זהים) או אם G1 לא גדול מ-G2 וגם G2 לא גדול מ-G1.
-  2. גרף G2 גדול מגרף G1 אם הגרף G1 מוכל ממש בגרף G2. אם אף גרף לא מוכל ממש בשני והגרפים לא שווים, אז גרף G2 גדול מגרף G1 אם מספר הצלעות ב-G2 גדול ממספר הצלעות ב-G1. אם בכל זאת מספר הצלעות זהה, אז הגרף G2 גדול מהגרף G1 אם המטריצה המייצגת של G2 בעלת סדר גודל גבוה יותר משל G1.
+### Subtraction Operators
 
-- הגדלה ב-1 (++) והקטנה ב-1 (--) לפני ואחרי המספר. פעולה זו תגדיל או תקטין ב-1 את כל המשקלים של הצלעות בגרף.
-- הכפלה בסקלר שלם (`int`) - מכפיל את המשקל של כל הצלעות.
-- הכפלת גרפים - אנחנו מגדירים את פעולת הכפל בין גרף G1 לגרף G2 על ידי מכפלה של המטריצות המייצגות של שני הגרפים. התוצאה צריכה להיות מטריצה המייצגת גרף. ניסיון לבצע כפל בין גרפים בגדלים שונים צריך לזרוק שגיאה.
-- אופרטור פלט - הדפסה הגיונית של הגרף (צורת ההפדסה היא לשיקולכם).
+- `-`: This operator is used to subtract one graph from another. It takes two graphs as input and returns a new graph. If the input graphs are not of the same size, an exception is thrown.
+
+- `-=`: This operator is used to subtract a graph from the current graph. It takes a graph as input and modifies the current graph. If the input graph is not of the same size as the current graph, an exception is thrown.
+
+### Multiplication Operators
+
+- `*`: This operator is used to multiply two graphs together. It takes two graphs as input and returns a new graph. The resulting graph's adjacency matrix is the matrix product of the adjacency matrices of the input graphs. If the input graphs are not of compatible sizes for matrix multiplication, an exception is thrown.
+
+- `*=`: This operator is used to multiply the current graph by another graph. It takes a graph as input and modifies the current graph. The adjacency matrix of the current graph is updated to be the matrix product of its own adjacency matrix and the adjacency matrix of the input graph. If the input graph is not of a compatible size for matrix multiplication with the current graph, an exception is thrown.
+
+## Changes made from exe1
+
+### In Graph.cpp , Graph.hpp.
+- `getNumVertices()`,`getAdjacencyMatrix()`,`getIsDirected()`,`getWeightsType()`: made const methods.
+- `loadGraph()`: if the matrix is assymetric and the graph was set to Undirected, it will be set as directed from now and there wont be exception throwing.
+- `getNumEdges()`: added method to help me in the comparison operators.
+
+### In Algorithms.cpp , Algorithms.hpp.
+-
 
 
-כמו כן, עליכם לכלול גם את הקובץ `Algorithms.cpp` מהמטלה הקודמת ולראות כיצד הפונקציות שהגדרתם בפעם הקודמת משתנות עכשיו. בנוסף לקבצים של המטלה אתם נדרשים להגיש גם קובץ README המתאר את אופן המימוש ואת החלוקה שביצעתם בקוד (סוג של מדריך משתמש).
-עליכם לכתוב בתחילת כל קובץ את מספר תעודת הזהות שלכם ואת המייל. אי עמידה בהנחיות תגרור הפחתה בציון.
-בהצלחה!
+## How to Run
+
+The project includes a Makefile for easy compilation and running of the code. Here are some commands you can use:
+
+- `make run`: Compiles the code and runs the demo.
+- `make demo`: Compiles the code for the demo.
+- `make test`: Compiles the code for the tests.
+- `make tidy`: Runs clang-tidy on the source files to check for code quality issues.
+- `make valgrind`: Runs valgrind on the demo and test executables to check for memory leaks.
+- `make clean`: Removes all compiled files.
+
+## Testing
+
+
+
 
