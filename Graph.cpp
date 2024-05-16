@@ -165,47 +165,6 @@ namespace ariel
         }
     }
 
-    // bool isContains(const Graph &g1, const Graph &g2)
-    // {
-
-    //     if (g2.adjacencyMatrix.size() > g1.adjacencyMatrix.size())
-    //     {
-    //         return false;
-    //     }
-    //     int diff = g1.adjacencyMatrix[0].size() - g2.adjacencyMatrix[0].size();
-
-    //     //   cout << "g1: \n" << g1 << endl;
-    //     //   cout << "g2: \n" << g2 << endl;
-    //     int equalCount = 0;
-
-    //     for (size_t t = 0; t < diff; t++)
-    //     {
-    //         for (size_t i = 0; i < g2.adjacencyMatrix[0].size(); i++)
-    //         {
-    //             for (size_t j = 0; j < g2.adjacencyMatrix[0].size(); j++)
-    //             {
-    //                 //   cout << "g1[i+t][j+t] = " << g1.adjacencyMatrix[i+t][j+t] << " g2[i][j] = " << g2.adjacencyMatrix[i][j] << endl;
-    //                 if (g1.adjacencyMatrix[i + t][j + t] == g2.adjacencyMatrix[i][j])
-    //                 {
-    //                     equalCount++;
-    //                 }
-    //                 else
-    //                 {
-    //                     equalCount = 0;
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     if (equalCount == g2.adjacencyMatrix[0].size() * g2.adjacencyMatrix[0].size())
-    //     {
-    //         return true;
-    //     }
-
-    //     return false;
-    // }
-
     /*
         the following method will check if g1 contains g2.
         first, if the number of vertices in g2 is greater than the number of vertices in g1,
@@ -661,7 +620,7 @@ namespace ariel
                 os << std::setw(2) << g.getAdjacencyMatrix()[i][j];
                 if (j != g.getAdjacencyMatrix()[i].size() - 1)
                 {
-                    os << ", ";
+                    os << ",";
                 }
             }
             os << "]\n";
