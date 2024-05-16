@@ -119,7 +119,7 @@ namespace ariel
         this->weightType = type;
     }
 
-    size_t Graph::getNumVertices()
+    size_t Graph::getNumVertices() const
     {
         return numVertices;
     }
@@ -180,6 +180,7 @@ namespace ariel
     /*
             implementing += operator overloading.
     */
+
     // Overloading the += operator to add two graphs together
     // by adding their adjacency matrices.
     Graph& Graph::operator+=(const Graph &g){
@@ -210,6 +211,7 @@ namespace ariel
         return *this;
     }
 
+    // Overloading the Prefix version of the ++ operator to increment all the elements of the graph by 1.
     Graph& Graph::operator++()
     {
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
@@ -340,11 +342,11 @@ namespace ariel
         Graph resGraph;
         vector<vector<int>> resMatrix;
         // check if the matrices have the same dimensions
-        if (this->adjacencyMatrix[0].size() != g.adjacencyMatrix.size())
+        if (this->getNumVertices() != g.getNumVertices())
         {
-            throw invalid_argument("The number of columns in the first matrix must be equal to the number of rows in the second matrix.");
+            throw invalid_argument("The size of the matrices is not the same.");
         }
-
+        
         // iterating over each row of the first matrix.
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
@@ -369,6 +371,8 @@ namespace ariel
         // resetting the result matrix diagonal to zeroes.
         for (size_t i = 0; i < resMatrix.size(); i++)
         {
+            // in my implementation there is no self loops, and the diagonal should be zero.
+            // load graph will throw an exception if the diagonal is not zero.
             resMatrix[i][i] = 0;
         }
         resGraph.loadGraph(resMatrix);

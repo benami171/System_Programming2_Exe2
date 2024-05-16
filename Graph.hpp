@@ -70,7 +70,7 @@ public:
     
     bool getIsDirected();
 
-    size_t getNumVertices();
+    size_t getNumVertices() const;
 
     void setContainsNegativeCycle(bool flag);
     
