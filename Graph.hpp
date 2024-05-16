@@ -59,10 +59,10 @@ public:
     // inline Constructor
     
     void setWeightsType(int type);
-
-    friend bool isContained(const Graph& g1, const Graph& g2);
     
-    int getWeightsType();
+    bool isContains(const Graph& g2) const;
+
+    int getWeightsType() const;
 
     void printGraph();
 
@@ -70,9 +70,9 @@ public:
 
     void loadGraph(vector<vector<int>> &matrix);
     
-    bool getIsDirected();
-
+    bool getIsDirected() const;
     size_t getNumVertices() const;
+    size_t getNumEdges() const;
 
     void setContainsNegativeCycle(bool flag);
     

@@ -63,7 +63,7 @@ namespace ariel
                 if (matrix[i][j] != matrix[j][i] && !this->isDirected)
                 {
                     this->isDirected = true;
-                  //  throw invalid_argument("Undirected graph should have symmetric adjacency matrix");
+                    //  throw invalid_argument("Undirected graph should have symmetric adjacency matrix");
                 }
             }
         }
@@ -129,16 +129,83 @@ namespace ariel
         return adjacencyMatrix;
     }
 
-    bool Graph::getIsDirected()
+    bool Graph::getIsDirected() const
     {
         return this->isDirected;
     }
 
-    int Graph::getWeightsType()
+
+    int Graph::getWeightsType() const
     {
         return this->weightType;
     }
 
+    size_t Graph::getNumEdges() const
+    {
+
+        bool type = getIsDirected();
+        size_t edges = 0;
+
+        for (size_t i = 0; i < adjacencyMatrix.size(); ++i)
+        {
+            for (size_t j = 0; j < adjacencyMatrix[i].size(); ++j)
+            {
+                if (i != j && adjacencyMatrix[i][j] != 0)
+                {
+                    ++edges;
+                }
+            }
+        }
+        if (!this->isDirected)
+        {
+            return edges /= 2;
+        }
+        else
+        {
+            return edges;
+        }
+    }
+    
+    // bool isContains(const Graph &g1, const Graph &g2)
+    // {
+
+    //     if (g2.adjacencyMatrix.size() > g1.adjacencyMatrix.size())
+    //     {
+    //         return false;
+    //     }
+    //     int diff = g1.adjacencyMatrix[0].size() - g2.adjacencyMatrix[0].size();
+
+    //     //   cout << "g1: \n" << g1 << endl;
+    //     //   cout << "g2: \n" << g2 << endl;
+    //     int equalCount = 0;
+
+    //     for (size_t t = 0; t < diff; t++)
+    //     {
+    //         for (size_t i = 0; i < g2.adjacencyMatrix[0].size(); i++)
+    //         {
+    //             for (size_t j = 0; j < g2.adjacencyMatrix[0].size(); j++)
+    //             {
+    //                 //   cout << "g1[i+t][j+t] = " << g1.adjacencyMatrix[i+t][j+t] << " g2[i][j] = " << g2.adjacencyMatrix[i][j] << endl;
+    //                 if (g1.adjacencyMatrix[i + t][j + t] == g2.adjacencyMatrix[i][j])
+    //                 {
+    //                     equalCount++;
+    //                 }
+    //                 else
+    //                 {
+    //                     equalCount = 0;
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     if (equalCount == g2.adjacencyMatrix[0].size() * g2.adjacencyMatrix[0].size())
+    //     {
+    //         return true;
+    //     }
+
+    //     return false;
+    // }
 
     /*
         the following method will check if g1 contains g2.
@@ -147,32 +214,38 @@ namespace ariel
         then we will check if the adjacency matrix of g2 is a submatrix of the adjacency matrix of g1.
         both of the graphs are represented as adjacency matrices,
         so we know the diagonal should be all zeros, so we dont need to go over
-        all the possibilities of the submatrices. we will 
+        all the possibilities of the submatrices. we will
+
+        will helps us in operator< overloading.
 
     */
-    
 
-
-    bool isContained(const Graph &g1, const Graph &g2)
+    // return true if g1 contains g2, otherwise return false.
+    bool Graph::isContains(const Graph &g) const
     {
-        
-        if (g2.adjacencyMatrix.size() > g1.adjacencyMatrix.size())
+        if (g.adjacencyMatrix.size() > this->adjacencyMatrix.size())
         {
             return false;
         }
-        int diff = g1.adjacencyMatrix[0].size() - g2.adjacencyMatrix[0].size();
-        
-     //   cout << "g1: \n" << g1 << endl; 
-     //   cout << "g2: \n" << g2 << endl;
-        int equalCount = 0;
+        int diff = this->adjacencyMatrix[0].size() - g.adjacencyMatrix[0].size();
 
-        for (size_t t = 0 ; t < diff ; t++){
-            for (size_t i = 0 ; i < g2.adjacencyMatrix[0].size() ; i ++){
-                for (size_t j = 0 ; j < g2.adjacencyMatrix[0].size() ; j++){
-                 //   cout << "g1[i+t][j+t] = " << g1.adjacencyMatrix[i+t][j+t] << " g2[i][j] = " << g2.adjacencyMatrix[i][j] << endl;
-                    if (g1.adjacencyMatrix[i+t][j+t] == g2.adjacencyMatrix[i][j]){
+        int equalCount = 0;
+        // cout << "this: \n" << *this << endl;
+        // cout << "g: \n" << g << endl;
+
+        for (size_t t = 0; t < diff; t++)
+        {
+            for (size_t i = 0; i < g.adjacencyMatrix[0].size(); i++)
+            {
+                for (size_t j = 0; j < g.adjacencyMatrix[0].size(); j++)
+                {
+                    // cout << "this[i+t][j+t] = " << this->adjacencyMatrix[i+t][j+t] << " g[i][j] = " << g.adjacencyMatrix[i][j] << endl;
+                    if (this->adjacencyMatrix[i + t][j + t] == g.adjacencyMatrix[i][j])
+                    {
                         equalCount++;
-                    } else {
+                    }
+                    else
+                    {
                         equalCount = 0;
                         break;
                     }
@@ -180,27 +253,28 @@ namespace ariel
             }
         }
 
-        if (equalCount == g2.adjacencyMatrix[0].size() * g2.adjacencyMatrix[0].size()){
+        if (equalCount == g.adjacencyMatrix[0].size() * g.adjacencyMatrix[0].size())
+        {
             return true;
         }
 
         return false;
     }
 
-
     /*
             implementing + operator overloading.
     */
     // Overloading the + operator to add two graphs together
     // by adding their adjacency matrices.
-    Graph Graph::operator+(const Graph &g){
+    Graph Graph::operator+(const Graph &g)
+    {
         Graph resGraph;
 
         // check if the matrices have the same dimensions
         if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
             this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
         {
-            throw invalid_argument("The matrices should have the same dimensions.");  
+            throw invalid_argument("The matrices should have the same dimensions.");
         }
 
         vector<vector<int>> resMatrix;
@@ -208,7 +282,7 @@ namespace ariel
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
             // creating an empty row to store the sum of the two matrices.
-            vector<int> row; 
+            vector<int> row;
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
                 // adding the corresponding elements of the two matrices.
@@ -221,7 +295,6 @@ namespace ariel
 
         resGraph.loadGraph(resMatrix);
         return resGraph;
-
     }
 
     /*
@@ -230,12 +303,13 @@ namespace ariel
 
     // Overloading the += operator to add two graphs together
     // by adding their adjacency matrices.
-    Graph& Graph::operator+=(const Graph &g){
+    Graph &Graph::operator+=(const Graph &g)
+    {
         // check if the matrices have the same dimensions
         if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
             this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
         {
-            throw invalid_argument("The matrices should have the same dimensions.");  
+            throw invalid_argument("The matrices should have the same dimensions.");
         }
 
         // iterating over each row of the matrix.
@@ -259,14 +333,15 @@ namespace ariel
     }
 
     // Overloading the Prefix version of the ++ operator to increment all the elements of the graph by 1.
-    Graph& Graph::operator++()
+    Graph &Graph::operator++()
     {
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
-                if (i!=j){
-                this->adjacencyMatrix[i][j]++;
+                if (i != j)
+                {
+                    this->adjacencyMatrix[i][j]++;
                 }
             }
         }
@@ -284,20 +359,20 @@ namespace ariel
     }
 
     // Overloading the Prefix -- operator to decrement all the elements of the graph by 1.
-    Graph& Graph::operator--()
+    Graph &Graph::operator--()
     {
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
-                if (i!=j){
-                this->adjacencyMatrix[i][j]--;
+                if (i != j)
+                {
+                    this->adjacencyMatrix[i][j]--;
                 }
             }
         }
         return *this;
     }
-
 
     // Overloading the Postfix -- operator to decrement all the elements of the graph by 1.
     Graph Graph::operator--(int)
@@ -307,21 +382,21 @@ namespace ariel
         return temp;
     }
 
-
     /*
             implementing - operator overloading.
     */
-  
+
     // Overloading the - operator to subtract two graphs together
     // by subtracting their adjacency matrices.
-    Graph Graph::operator-(const Graph &g){
+    Graph Graph::operator-(const Graph &g)
+    {
         Graph resGraph;
 
         // check if the matrices have the same dimensions
         if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
             this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
         {
-            throw invalid_argument("The matrices should have the same dimensions.");  
+            throw invalid_argument("The matrices should have the same dimensions.");
         }
 
         vector<vector<int>> resMatrix;
@@ -329,7 +404,7 @@ namespace ariel
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
             // creating an empty row to store the subtraction of the two matrices.
-            vector<int> row; 
+            vector<int> row;
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
                 // subtracting the corresponding elements of the two matrices.
@@ -341,15 +416,15 @@ namespace ariel
 
         resGraph.loadGraph(resMatrix);
         return resGraph;
-
     }
 
-    Graph& Graph::operator-=(const Graph &g){
+    Graph &Graph::operator-=(const Graph &g)
+    {
         // check if the matrices have the same dimensions
         if (this->adjacencyMatrix.size() != g.adjacencyMatrix.size() ||
             this->adjacencyMatrix[0].size() != g.adjacencyMatrix[0].size())
         {
-            throw invalid_argument("The matrices should have the same dimensions.");  
+            throw invalid_argument("The matrices should have the same dimensions.");
         }
 
         // iterating over each row of the matrix.
@@ -365,9 +440,9 @@ namespace ariel
         return *this;
     }
 
-
     // Unary minus operator overloading, returns the graph with all its elements negated.
-    Graph Graph::operator-() const{
+    Graph Graph::operator-() const
+    {
         Graph resGraph(*this);
         for (size_t i = 0; i < resGraph.adjacencyMatrix.size(); i++)
         {
@@ -384,7 +459,7 @@ namespace ariel
             implementing * operator overloading.
     */
 
-    Graph Graph:: operator*(const Graph &g)
+    Graph Graph::operator*(const Graph &g)
     {
         Graph resGraph;
         vector<vector<int>> resMatrix;
@@ -393,7 +468,7 @@ namespace ariel
         {
             throw invalid_argument("The size of the matrices is not the same.");
         }
-        
+
         // iterating over each row of the first matrix.
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
@@ -427,7 +502,7 @@ namespace ariel
     }
 
     // Overloading the *= operator to multiply the graph by a scalar.
-    Graph& Graph::operator*=(const int &scalar)
+    Graph &Graph::operator*=(const int &scalar)
     {
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
@@ -441,37 +516,63 @@ namespace ariel
 
     /*
             implementing /= operator overloading.
-    */  
+    */
 
-    Graph& Graph::operator/=(const int &scalar)
+    Graph &Graph::operator/=(const int &scalar)
     {
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
-                if (this->adjacencyMatrix[i][j] != 0){
-                this->adjacencyMatrix[i][j] /= scalar;
+                if (this->adjacencyMatrix[i][j] != 0)
+                {
+                    this->adjacencyMatrix[i][j] /= scalar;
                 }
             }
         }
         return *this;
     }
 
-
     /*
             implementing comparison operators.
     */
 
-   // Overloading the < operator, G1<G2 if G1 matrix is submatrix of G2 matrix.
-   // if G1 is not a submatrix of G2 and G2 is not a submatrix of G1,
-   // then G1<G2 if the sum of edges in G1 is less than the sum of edges in G2.
-   // if the sum of edges is equal
+    // Overloading the < operator, G1<G2 if G1 matrix is submatrix of G2 matrix.
+    // if G1 is not a submatrix of G2 and G2 is not a submatrix of G1,
+    // then G1<G2 if the sum of edges in G1 is less than the sum of edges in G2.
+    // if the sum of edges is equal
 
+    bool Graph::operator<(const Graph &g) const
+    {
+        // if g contains this, return true as this<g.
+        if (g.isContains(*this))
+        {
+            return true;
+        }
+        
+        // if g doesnt contain this, and this contains g, return false as this>g.
+        if (this->isContains(g))
+        {
+            return false;
+        }
+        
 
-
-
-
-
+        // if g and this are not submatrices of each other, then compare the sum of edges.
+        size_t thisEdges = this->getNumEdges();
+        size_t gEdges = g.getNumEdges();
+        if (thisEdges < gEdges)
+        {
+            return true;
+        } 
+        else if (thisEdges > gEdges)
+        {
+            return false;
+        } 
+        else // if thisEdges == gEdges
+        {
+            return true;
+        }
+    }
 
     // Overloading the << operator to print the adjacency matrix of the graph.
     std::ostream &operator<<(std::ostream &os, const Graph &g)

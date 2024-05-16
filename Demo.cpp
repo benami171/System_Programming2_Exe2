@@ -90,6 +90,6 @@ int main()
 
     g2.loadGraph(graph4); // Load the graph to the object.
 
-    cout << isContained(g1, g2) << endl; // Should print "1" because g2 is contained in g1.
+    cout << g1.isContains(g2) << endl; // Should print "1" because g1 contains g2.
 
 }
