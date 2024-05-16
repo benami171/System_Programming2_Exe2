@@ -560,6 +560,7 @@ namespace ariel
         // if g and this are not submatrices of each other, then compare the sum of edges.
         size_t thisEdges = this->getNumEdges();
         size_t gEdges = g.getNumEdges();
+
         if (thisEdges < gEdges)
         {
             return true;
@@ -570,8 +571,65 @@ namespace ariel
         } 
         else // if thisEdges == gEdges
         {
+            if (this->numVertices < g.numVertices)
+            {
+                return true;
+            }
+            else if (this->numVertices > g.numVertices)
+            {
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    bool Graph::operator<=(const Graph &g) const
+    {
+        return (*this < g) || (*this == g);
+    }
+
+    bool Graph::operator>(const Graph &g) const
+    {
+        return g < *this;
+    }
+
+    bool Graph::operator>=(const Graph &g) const
+    {
+        return g <= *this;
+    }
+
+    bool Graph::operator==(const Graph &g) const
+    {
+        size_t thisEdges = this->getNumEdges();
+        size_t gEdges = g.getNumEdges();
+
+        if (this->numVertices == g.numVertices){
+            for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+            {
+                for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+                {
+                    if (this->adjacencyMatrix[i][j] != g.adjacencyMatrix[i][j])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }// if not, check if G1 !< G2 and G2 !< G1
+        else if (!((*this)<(g)) && !(g<(*this)))
+        {
             return true;
         }
+        return false;
+
+    }
+
+    bool Graph::operator!=(const Graph &g) const
+    {
+        return !(*this == g);
     }
 
     // Overloading the << operator to print the adjacency matrix of the graph.

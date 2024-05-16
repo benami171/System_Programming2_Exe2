@@ -51,8 +51,6 @@ public:
     bool operator>(const Graph &g) const;
     bool operator<=(const Graph &g) const;
     bool operator>=(const Graph &g) const;
-    
-
 
 
     Graph(bool directed = false) : isDirected(directed) {}

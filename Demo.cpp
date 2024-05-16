@@ -90,6 +90,15 @@ int main()
 
     g2.loadGraph(graph4); // Load the graph to the object.
 
-    cout << g1.isContains(g2) << endl; // Should print "1" because g1 contains g2.
+    cout << g1.isContains(g2) << endl; // Should print "1"
 
+    vector<vector<int>> graph5 = {
+        {0, 2, 2},
+        {3, 0, 4},
+        {6, 2, 0}};
+    g1.loadGraph(graph5); // Load the graph to the object.
+
+    cout << "is g1 == g2 ? " << (g1 == g2) << endl; // Should print "0" 
+    cout << "is g1 < g2 ? " << (g1 < g2) << endl;   // Should print "0" 
+    cout << "is g1 > g2 ? " << (g1 > g2) << endl;   // Should print "0" 
 }
