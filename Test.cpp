@@ -53,6 +53,26 @@ TEST_CASE("Test graph multiplication")
     CHECK(g4 == g5);
 }
 
+TEST_CASE("Test graph multiplication with scalar")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph);
+    ariel::Graph g2 = g1 * 2;
+    g2 = -2 * g2;
+    vector<vector<int>> expectedGraph = {
+        {0, -4, 0},
+        {-4, 0, -4},
+        {0, -4, 0}};
+    ariel::Graph g3;
+    g3.loadGraph(expectedGraph);
+    CHECK(g2 == g3);
+
+}
+
 TEST_CASE("Invalid operations")
 {
     ariel::Graph g1;
@@ -101,4 +121,5 @@ TEST_CASE("Test Increment and Decrement operators")
     g2--;
     --g2;
     CHECK(g1 == g2); // supposed to be equal, -- on zero matrix is still zero matrix
+
 }
