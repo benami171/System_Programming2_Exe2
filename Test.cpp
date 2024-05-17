@@ -83,3 +83,22 @@ TEST_CASE("Invalid operations")
     g6.loadGraph(graph3);
     CHECK_THROWS(g1 + g6);
 }
+
+TEST_CASE("Test Increment and Decrement operators")
+{
+    ariel::Graph g1;
+    vector<vector<int>> zeroMat = {
+        {0, 0, 0},
+        {0, 0, 0},
+        {0, 0, 0}};
+    g1.loadGraph(zeroMat);
+    ariel::Graph g2;
+    g2.loadGraph(zeroMat);
+    g2++;
+    ++g2;
+    CHECK(g1 == g2); // supposed to be equal, ++ on zero matrix is still zero matrix
+
+    g2--;
+    --g2;
+    CHECK(g1 == g2); // supposed to be equal, -- on zero matrix is still zero matrix
+}
