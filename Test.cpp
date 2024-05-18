@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 TEST_CASE("Test graph addition")
 {
     ariel::Graph g1;
@@ -27,7 +26,7 @@ TEST_CASE("Test graph addition")
     ariel::Graph g4;
     g4.loadGraph(expectedGraph);
     CHECK((g3 == g4));
-        ariel::Graph g5;
+    ariel::Graph g5;
     vector<vector<int>> graph2 = {
         {0, 1, 0},
         {1, 0, 1},
@@ -60,8 +59,6 @@ TEST_CASE("Test graph addition")
     {
         ariel::Graph g5 = +g1;
         CHECK((g5 == g1) == true);
-
-        
     }
 
     SUBCASE("Addition of two graphs with different dimensions")
@@ -141,7 +138,6 @@ TEST_CASE("Test graph subtraction")
         CHECK_THROWS(g1 - g6);
         CHECK_THROWS(g1 -= g6);
     }
-
 }
 
 TEST_CASE("Test graph multiplication")
@@ -166,60 +162,85 @@ TEST_CASE("Test graph multiplication")
     ariel::Graph g5;
     g5.loadGraph(expectedGraph);
     CHECK((g4 == g5) == true);
-    
+
+    SUBCASE("Test graph multiplication with scalar both ways")
+    {
+        ariel::Graph g6 = g1 * 2;
+        ariel::Graph g7 = 2 * g1;
+        vector<vector<int>> expectedGraph2 = {
+            {0, 2, 0},
+            {2, 0, 2},
+            {0, 2, 0}};
+        ariel::Graph g8;
+        g8.loadGraph(expectedGraph2);
+
+        CHECK((g6 == g8) == true);
+        CHECK((g7 == g8) == true);
+
+        ariel::Graph g2 = g1 * 2;
+        g2 = -2 * g2;
+        vector<vector<int>> expectedGraph = {
+            { 0,-4, 0},
+            {-4, 0,-4},
+            { 0,-4, 0}};
+        ariel::Graph g13;
+        g13.loadGraph(expectedGraph);
+        CHECK((g2 == g13) == true);
+    }
+
+    SUBCASE("Multiplication of two graphs with different dimensions")
+    {
+        ariel::Graph g9;
+        vector<vector<int>> graph2 = {
+            {0, 5, 0, 0, 7, 5},
+            {1, 0, 1, 8, 0, 5},
+            {0, 5, 0, 1, 0, 5},
+            {0, 0, 1, 0, 1, 5},
+            {7, 0, 0, 1, 0, 5},
+            {5, 5, 5, 5, 5, 0}};
+        g9.loadGraph(graph2);
+        CHECK_THROWS(g1 * g9);
+    }
+
+    SUBCASE("Test graph multiplication with scalar assignments")
+    {
+        ariel::Graph g11;
+        ariel::Graph g12;
+        vector<vector<int>> graph2 = {
+            {0, 1, 0},
+            {1, 0, 1},
+            {0, 1, 0}};
+
+        vector<vector<int>> graph3 = {
+            {0, 2, 0},
+            {2, 0, 2},
+            {0, 2, 0}};
+        g11.loadGraph(graph2);
+        g12.loadGraph(graph3);
+        g11 *= 2;
+        CHECK((g11 == g12) == true);
+    }
 }
 
-
-
-
-
-TEST_CASE("Test graph subtraction with assignment")
+TEST_CASE("Test Graph division")
 {
-    // ... existing code ...
-}
-
-TEST_CASE("Test unary -")
-{
-    // ... existing code ...
-}
-
-TEST_CASE("Subtraction of two graphs with different dimensions")
-{
-    // ... existing code ...
-}
-
-TEST_CASE("Test graph multiplication")
-{
-    // ... existing code ...
-}
-
-TEST_CASE("Test graph multiplication with scalar both ways")
-{
-    // ... existing code ...
-}
-
-TEST_CASE("Multiplication of two graphs with different dimensions")
-{
-    // ... existing code ...
-}
-
-TEST_CASE("Test graph multiplication with scalar both ways")
-{
-    ariel::Graph g1;
     vector<vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}};
+        {0, 4, 0},
+        {2, 0, 2},
+        {0, 4, 0}};
+    ariel::Graph g1;
     g1.loadGraph(graph);
-    ariel::Graph g2 = g1 * 2;
-    g2 = -2 * g2;
+
+    g1 /= 2;
     vector<vector<int>> expectedGraph = {
-        {0, -4, 0},
-        {-4, 0, -4},
-        {0, -4, 0}};
-    ariel::Graph g3;
-    g3.loadGraph(expectedGraph);
-    CHECK((g2 == g3) == true);
+        {0, 2, 0},
+        {1, 0, 1},
+        {0, 2, 0}};
+
+    ariel::Graph g2;
+    g2.loadGraph(expectedGraph);
+    CHECK((g1 == g2) == true);  
+
 }
 
 TEST_CASE("Invalid operations")
@@ -281,7 +302,7 @@ TEST_CASE("Test Increment and Decrement operators")
     --g1;
     CHECK((g1 == g3) == true); // supposed to be equal, -- on zero matrix is still zero matrix
 
-        ariel::Graph g4;
+    ariel::Graph g4;
     vector<vector<int>> zeroMat = {
         {0, 0, 0},
         {0, 0, 0},
