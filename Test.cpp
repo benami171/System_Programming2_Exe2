@@ -4,30 +4,7 @@
 
 using namespace std;
 
-TEST_CASE("Test graph addition")
-{
-    ariel::Graph g1;
-    vector<vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}};
-    g1.loadGraph(graph);
-    ariel::Graph g2;
-    vector<vector<int>> weightedGraph = {
-        {0, 1, 1},
-        {1, 0, 2},
-        {1, 2, 0}};
-    g2.loadGraph(weightedGraph);
-    ariel::Graph g3 = g1 + g2;
 
-    vector<vector<int>> expectedGraph = {
-        {0, 2, 1},
-        {2, 0, 3},
-        {1, 3, 0}};
-    ariel::Graph g4;
-    g4.loadGraph(expectedGraph);
-    CHECK(g3 == g4);
-}
 TEST_CASE("Test graph addition")
 {
     ariel::Graph g1;
@@ -50,7 +27,27 @@ TEST_CASE("Test graph addition")
     ariel::Graph g4;
     g4.loadGraph(expectedGraph);
     CHECK((g3 == g4));
-    CHECK((&g3 != &g1));
+        ariel::Graph g5;
+    vector<vector<int>> graph2 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g5.loadGraph(graph2);
+    ariel::Graph g6;
+    vector<vector<int>> weightedGraph2 = {
+        {0, 1, 1},
+        {1, 0, 2},
+        {1, 2, 0}};
+    g6.loadGraph(weightedGraph2);
+    ariel::Graph g7 = g5 + g6;
+
+    vector<vector<int>> expectedGraph2 = {
+        {0, 2, 1},
+        {2, 0, 3},
+        {1, 3, 0}};
+    ariel::Graph g8;
+    g8.loadGraph(expectedGraph2);
+    CHECK(g7 == g8);
 
     SUBCASE("Test graph addition with assignment")
     {
@@ -63,17 +60,20 @@ TEST_CASE("Test graph addition")
     {
         ariel::Graph g5 = +g1;
         CHECK((g5 == g1) == true);
+
+        
     }
 
     SUBCASE("Addition of two graphs with different dimensions")
     {
         ariel::Graph g6;
         vector<vector<int>> graph2 = {
-            {0, 1, 0, 0, 1},
-            {1, 0, 1, 0, 0},
-            {0, 1, 0, 1, 0},
-            {0, 0, 1, 0, 1},
-            {1, 0, 0, 1, 0}};
+            {0, 5, 0, 0, 7, 5},
+            {1, 0, 1, 8, 0, 5},
+            {0, 5, 0, 1, 0, 5},
+            {0, 0, 1, 0, 1, 5},
+            {7, 0, 0, 1, 0, 5},
+            {5, 5, 5, 5, 5, 0}};
         g6.loadGraph(graph2);
         CHECK_THROWS(g1 + g6);
         CHECK_THROWS(g1 += g6);
@@ -87,6 +87,61 @@ TEST_CASE("Test graph addition")
         CHECK(ariel::Algorithms::isBipartite(g3) == "Graph is not Bipartite");
         CHECK(ariel::Algorithms::shortestPath(g3, 1, 2) == "1->2");
     }
+}
+TEST_CASE("Test graph subtraction")
+{
+
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    ariel::Graph g1;
+    g1.loadGraph(graph);
+    vector<vector<int>> graph2 = {
+        {0, 2, 0},
+        {2, 0, 2},
+        {0, 2, 0}};
+    ariel::Graph g2;
+    g2.loadGraph(graph2);
+    ariel::Graph g3 = g2 - g1;
+
+    vector<vector<int>> negativeGraph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+
+    ariel::Graph g4;
+    g4.loadGraph(negativeGraph);
+    CHECK((g3 == g1) == true);
+
+    SUBCASE("Test subtraction with assignment")
+    {
+        g2 -= g1;
+        CHECK((g2 == g1) == true);
+        CHECK((g2 != g3) == false);
+    }
+
+    SUBCASE("Test unary -")
+    {
+        ariel::Graph g5 = -g1;
+        CHECK((g5 == g4) == false);
+    }
+
+    SUBCASE("Subtraction of two graphs with different dimensions")
+    {
+        ariel::Graph g6;
+        vector<vector<int>> graph2 = {
+            {0, 5, 0, 0, 7, 5},
+            {1, 0, 1, 8, 0, 5},
+            {0, 5, 0, 1, 0, 5},
+            {0, 0, 1, 0, 1, 5},
+            {7, 0, 0, 1, 0, 5},
+            {5, 5, 5, 5, 5, 0}};
+        g6.loadGraph(graph2);
+        CHECK_THROWS(g1 - g6);
+        CHECK_THROWS(g1 -= g6);
+    }
+
 }
 
 TEST_CASE("Test graph multiplication")
@@ -111,66 +166,12 @@ TEST_CASE("Test graph multiplication")
     ariel::Graph g5;
     g5.loadGraph(expectedGraph);
     CHECK((g4 == g5) == true);
-}
-
-TEST_CASE("Test unary +")
-{
-
-    ariel::Graph g1;
-    vector<vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}};
-    g1.loadGraph(graph);
-    ariel::Graph g2 = +g1;
-    CHECK((g2 == g1) == true);
-
-    ariel::Graph g3;
-    vector<vector<int>> negativeGraph = {
-        {0, -1, 0},
-        {-1, 0, -1},
-        {0, -1, 0}};
-
-    g3.loadGraph(negativeGraph);
-    ariel::Graph g4 = +g3;
-    CHECK((g4 == g3) == true);
-
-    ariel::Graph g5;
-    vector<vector<int>> zeroMat = {
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0}};
-    g5.loadGraph(zeroMat);
-    ariel::Graph g6 = +g5;
-    CHECK((g6 == g5) == true);
-}
-
-TEST_CASE("Addition of two graphs with different dimensions")
-{
-    ariel::Graph g1;
-    vector<vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}};
-    g1.loadGraph(graph);
-
-    ariel::Graph g5;
-    vector<vector<int>> graph2 = {
-        {0, 1, 0, 0, 1},
-        {1, 0, 1, 0, 0},
-        {0, 1, 0, 1, 0},
-        {0, 0, 1, 0, 1},
-        {1, 0, 0, 1, 0}};
-    g5.loadGraph(graph2);
-    CHECK_THROWS(g1 + g5);
-    CHECK_THROWS(g1 += g5);
+    
 }
 
 
-TEST_CASE("Test graph subtraction")
-{
-    // ... existing code ...
-}
+
+
 
 TEST_CASE("Test graph subtraction with assignment")
 {

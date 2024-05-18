@@ -255,26 +255,6 @@ namespace ariel
         return resGraph;
     }
 
-    Graph Graph::operator+(int scalar) const
-    {
-        Graph resGraph(*this);
-        for (size_t i = 0; i < resGraph.adjacencyMatrix.size(); i++)
-        {
-            for (size_t j = 0; j < resGraph.adjacencyMatrix[i].size(); j++)
-            {
-                if(i != j){
-                resGraph.adjacencyMatrix[i][j] += scalar;
-                }
-            }
-        }
-        return resGraph;
-    }
-
-    Graph operator+(int scalar, const Graph &g)
-    {
-        return g + scalar;
-    }
-
     /*
             implementing += operator overloading.
     */
@@ -394,26 +374,6 @@ namespace ariel
 
         resGraph.loadGraph(resMatrix);
         return resGraph;
-    }
-
-    Graph Graph::operator-(int scalar) const
-    {
-        Graph resGraph(*this);
-        for (size_t i = 0; i < resGraph.adjacencyMatrix.size(); i++)
-        {
-            for (size_t j = 0; j < resGraph.adjacencyMatrix[i].size(); j++)
-            {
-                if(i != j){
-                resGraph.adjacencyMatrix[i][j] -= scalar;
-                }
-            }
-        }
-        return resGraph;
-    }
-
-    Graph operator-(int scalar, const Graph &g)
-    {
-        return -g - scalar;
     }
 
     Graph &Graph::operator-=(const Graph &g)
