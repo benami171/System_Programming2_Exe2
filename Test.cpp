@@ -19,7 +19,7 @@ TEST_CASE("Test graph addition")
         {1, 2, 0}};
     g2.loadGraph(weightedGraph);
     ariel::Graph g3 = g1 + g2;
-    
+
     vector<vector<int>> expectedGraph = {
         {0, 2, 1},
         {2, 0, 3},
@@ -28,50 +28,6 @@ TEST_CASE("Test graph addition")
     g4.loadGraph(expectedGraph);
     CHECK(g3 == g4);
 }
-
-TEST_CASE("Test graph multiplication")
-{
-    ariel::Graph g1;
-    vector<vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}};
-    g1.loadGraph(graph);
-    ariel::Graph g2;
-    vector<vector<int>> weightedGraph = {
-        {0, 1, 1},
-        {1, 0, 2},
-        {1, 2, 0}};
-    g2.loadGraph(weightedGraph);
-    ariel::Graph g4 = g1 * g2;
-    vector<vector<int>> expectedGraph = {
-        {0, 0, 2},
-        {1, 0, 1},
-        {1, 0, 0}};
-    ariel::Graph g5;
-    g5.loadGraph(expectedGraph);
-    CHECK(g4 == g5);
-}
-
-TEST_CASE("Test graph multiplication with scalar both ways")
-{
-    ariel::Graph g1;
-    vector<vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}};
-    g1.loadGraph(graph);
-    ariel::Graph g2 = g1 * 2;
-    g2 = -2 * g2;
-    vector<vector<int>> expectedGraph = {
-        {0, -4, 0},
-        {-4, 0, -4},
-        {0, -4, 0}};
-    ariel::Graph g3;
-    g3.loadGraph(expectedGraph);
-    CHECK(g2 == g3);
-}
-
 TEST_CASE("Test graph addition")
 {
     ariel::Graph g1;
@@ -131,6 +87,122 @@ TEST_CASE("Test graph addition")
         CHECK(ariel::Algorithms::isBipartite(g3) == "Graph is not Bipartite");
         CHECK(ariel::Algorithms::shortestPath(g3, 1, 2) == "1->2");
     }
+}
+
+TEST_CASE("Test graph multiplication")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph);
+    ariel::Graph g2;
+    vector<vector<int>> weightedGraph = {
+        {0, 1, 1},
+        {1, 0, 2},
+        {1, 2, 0}};
+    g2.loadGraph(weightedGraph);
+    ariel::Graph g4 = g1 * g2;
+    vector<vector<int>> expectedGraph = {
+        {0, 0, 2},
+        {1, 0, 1},
+        {1, 0, 0}};
+    ariel::Graph g5;
+    g5.loadGraph(expectedGraph);
+    CHECK(g4 == g5);
+}
+
+TEST_CASE("Test unary +")
+{
+
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph);
+    ariel::Graph g2 = +g1;
+    CHECK(g2 == g1);
+
+    ariel::Graph g3;
+    vector<vector<int>> negativeGraph = {
+        {0, -1, 0},
+        {-1, 0, -1},
+        {0, -1, 0}};
+    
+    g3.loadGraph(negativeGraph);
+    ariel::Graph g4 = +g3;
+    CHECK(g4 == g3);
+}
+
+TEST_CASE("Addition of two graphs with different dimensions")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Test Increment operators")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Test Decrement operators")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Test graph subtraction")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Test graph subtraction with assignment")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Test unary -")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Subtraction of two graphs with different dimensions")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Test graph multiplication")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Test graph multiplication with scalar both ways")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Multiplication of two graphs with different dimensions")
+{
+    // ... existing code ...
+}
+
+TEST_CASE("Test graph multiplication with scalar both ways")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph);
+    ariel::Graph g2 = g1 * 2;
+    g2 = -2 * g2;
+    vector<vector<int>> expectedGraph = {
+        {0, -4, 0},
+        {-4, 0, -4},
+        {0, -4, 0}};
+    ariel::Graph g3;
+    g3.loadGraph(expectedGraph);
+    CHECK(g2 == g3);
 }
 
 TEST_CASE("Invalid operations")
