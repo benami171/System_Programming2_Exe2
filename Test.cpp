@@ -49,8 +49,8 @@ TEST_CASE("Test graph addition")
         {1, 3, 0}};
     ariel::Graph g4;
     g4.loadGraph(expectedGraph);
-    CHECK((g3 == g4) == true);
-    CHECK((&g3 != &g1) == true);
+    CHECK((g3 == g4));
+    CHECK((&g3 != &g1));
 
     SUBCASE("Test graph addition with assignment")
     {
@@ -110,7 +110,7 @@ TEST_CASE("Test graph multiplication")
         {1, 0, 0}};
     ariel::Graph g5;
     g5.loadGraph(expectedGraph);
-    CHECK(g4 == g5);
+    CHECK((g4 == g5) == true);
 }
 
 TEST_CASE("Test unary +")
@@ -123,7 +123,7 @@ TEST_CASE("Test unary +")
         {0, 1, 0}};
     g1.loadGraph(graph);
     ariel::Graph g2 = +g1;
-    CHECK(g2 == g1);
+    CHECK((g2 == g1) == true);
 
     ariel::Graph g3;
     vector<vector<int>> negativeGraph = {
@@ -133,7 +133,7 @@ TEST_CASE("Test unary +")
 
     g3.loadGraph(negativeGraph);
     ariel::Graph g4 = +g3;
-    CHECK(g4 == g3);
+    CHECK((g4 == g3) == true);
 
     ariel::Graph g5;
     vector<vector<int>> zeroMat = {
@@ -142,7 +142,7 @@ TEST_CASE("Test unary +")
         {0, 0, 0}};
     g5.loadGraph(zeroMat);
     ariel::Graph g6 = +g5;
-    CHECK(g6 == g5);
+    CHECK((g6 == g5) == true);
 }
 
 TEST_CASE("Addition of two graphs with different dimensions")
@@ -218,7 +218,7 @@ TEST_CASE("Test graph multiplication with scalar both ways")
         {0, -4, 0}};
     ariel::Graph g3;
     g3.loadGraph(expectedGraph);
-    CHECK(g2 == g3);
+    CHECK((g2 == g3) == true);
 }
 
 TEST_CASE("Invalid operations")
@@ -274,11 +274,11 @@ TEST_CASE("Test Increment and Decrement operators")
     g3.loadGraph(graph3);
     g1++;
     ++g1;
-    CHECK(g1 == g2); // supposed to be equal, ++ on zero matrix is still zero matrix
+    CHECK((g1 == g2) == true); // supposed to be equal, ++ on zero matrix is still zero matrix
 
     g1--;
     --g1;
-    CHECK(g1 == g3); // supposed to be equal, -- on zero matrix is still zero matrix
+    CHECK((g1 == g3) == true); // supposed to be equal, -- on zero matrix is still zero matrix
 
         ariel::Graph g4;
     vector<vector<int>> zeroMat = {
@@ -290,5 +290,5 @@ TEST_CASE("Test Increment and Decrement operators")
     g5.loadGraph(zeroMat);
     g5++;
     ++g5;
-    CHECK(g4 == g5); // supposed to be equal, ++ on zero matrix is still zero matrix
+    CHECK((g4 == g5) == true); // supposed to be equal, ++ on zero matrix is still zero matrix
 }

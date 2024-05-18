@@ -619,8 +619,6 @@ namespace ariel
 
     bool Graph::operator==(const Graph &g) const
     {
-        size_t thisEdges = this->getNumEdges();
-        size_t gEdges = g.getNumEdges();
 
         if (this->numVertices == g.numVertices)
         {

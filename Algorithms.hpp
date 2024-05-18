@@ -16,7 +16,7 @@ namespace ariel{
 class Algorithms
 {
     public:
-        static bool isConnected(Graph graph); // if can reach all vertices from any vertex
+        static bool isConnected(Graph& graph); // if can reach all vertices from any vertex
         static string shortestPath(Graph& graph, int start, int end); // using BFS, Dijkstra or Bellman-Ford.
         static string isContainsCycle(Graph& graph); // using DFS implementation.
         static string findCycle(Graph& graph); // a helper function

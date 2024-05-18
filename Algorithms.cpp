@@ -19,8 +19,9 @@ enum Color {WHITE, GRAY, BLACK};
 // Helper function to construct the path from the parent array
 string constructPath(const vector<int>& parent, int start, int end)
 {
-    if (parent[(size_t)end] == -1)
+    if (parent[(size_t)end] == -1){
         return "No path found";
+    }
 
     string path = to_string(end);
     while (end != start)
@@ -57,22 +58,21 @@ string BFS(Graph &graph, int start, int end)
     size_t numVertices = graph.getNumVertices();
     vector<int> parentVertx(numVertices, -1);
     vector<bool> visited(numVertices, false);
-    string shortestpath = "";
-    queue<int> q;
+    queue<int> queue;
     // Mark the start vertex as visited
     visited[(size_t)start] = true;
     // Set the parentVertxious node of the start vertex as itself
     // parentVertx[start] = start;
     // Add the start vertex to the queue
-    q.push(start);
+    queue.push(start);
 
     // While the queue is not empty
-    while (!q.empty())
+    while (!queue.empty())
     {
         // Get the front vertex of the queue
-        int current = q.front();
+        int current = queue.front();
         // Remove the front vertex from the queue
-        q.pop();
+        queue.pop();
 
         // If the current vertex is the end vertex, break the loop
         if (current == end)
@@ -85,7 +85,7 @@ string BFS(Graph &graph, int start, int end)
             if (adjMatrix[(size_t)current][i] != 0 && !visited[i])
             {
                 // Add the i-th vertex to the queue
-                q.push(i);
+                queue.push((int)i);
                 // Mark the i-th vertex as visited
                 visited[i] = true;
                 // Set the parentVertxious node of the i-th vertex as the current vertex
@@ -194,7 +194,7 @@ string bellmanford(Graph& graph, int start, int end){
 }
 
 
-bool Algorithms::isConnected(Graph graph)
+bool Algorithms::isConnected(Graph& graph)
 {
     size_t numVertices = graph.getNumVertices();
     vector<bool> visited(numVertices, false);
@@ -335,7 +335,7 @@ string Algorithms::isContainsCycle(Graph& graph) {
 vector<vector<int>> convertToUndirected(Graph &graph) {
     vector<vector<int>> adjMatrix = graph.getAdjacencyMatrix(); // Original adjacency matrix
     vector<vector<int>> newAdjMatrix = adjMatrix; // Copy of the adjacency matrix
-    int numVertices = graph.getNumVertices();
+    size_t numVertices = graph.getNumVertices();
 
     for (size_t i = 0; i < numVertices; i++) {
         for (size_t j = i+1; j < numVertices; j++) {
