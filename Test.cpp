@@ -134,6 +134,15 @@ TEST_CASE("Test unary +")
     g3.loadGraph(negativeGraph);
     ariel::Graph g4 = +g3;
     CHECK(g4 == g3);
+
+    ariel::Graph g5;
+    vector<vector<int>> zeroMat = {
+        {0, 0, 0},
+        {0, 0, 0},
+        {0, 0, 0}};
+    g5.loadGraph(zeroMat);
+    ariel::Graph g6 = +g5;
+    CHECK(g6 == g5);
 }
 
 TEST_CASE("Addition of two graphs with different dimensions")
