@@ -155,6 +155,26 @@ TEST_CASE("Test graph subtraction")
         g6.loadGraph(graph2);
         CHECK_THROWS(g1 - g6);
         CHECK_THROWS(g1 -= g6);
+
+        // example of using shortestPath and how after subtraction it makes a shorter path available between two graphs.
+        vector<vector<int>> longPath{
+            {0,2,5},
+            {8,0,6},
+            {0,3,0}};
+        vector<vector<int>> graph8{
+            {0,1,0},
+            {8,0,3},
+            {0,3,0}};
+        ariel::Graph g7;
+        ariel::Graph g8;
+        g7.loadGraph(longPath);
+        g8.loadGraph(graph8);
+        CHECK(ariel::Algorithms::shortestPath(g7,0,2) == "0->2");
+        ariel::Graph g9 = g7 - g8;
+        CHECK(ariel::Algorithms::shortestPath(g9,0,2) == "0->1->2");
+        CHECK(ariel::Algorithms::isBipartite(g9) == "Graph is not Bipartite");
+        CHECK(ariel::Algorithms::isConnected(g9) == false);
+        CHECK(ariel::Algorithms::isContainsCycle(g9) == "0");
     }
 }
 
