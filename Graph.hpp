@@ -21,9 +21,6 @@ public:
 
 // ADDITION OPERATORS
     Graph operator+(const Graph &g);
-    // Graph operator+(int scalar) const;
-    // // to allow the commutative property of addition
-    // friend Graph operator+(int scalar, const Graph& g);
     Graph& operator+=(const Graph &g);
     Graph operator+() const;
 
@@ -35,9 +32,6 @@ public:
 
 // SUBTRACTION OPERATORS
     Graph operator-(const Graph &g) const;
-    // Graph operator-(int scalar) const;
-    // // to allow the commutative property of subtraction
-    // friend Graph operator-(int scalar, const Graph& g);
     Graph& operator-=(const Graph &g);
     Graph operator-() const;
 

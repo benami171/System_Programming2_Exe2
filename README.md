@@ -1,17 +1,24 @@
-# Graph Operators Project
+# Graph's Operators Overloading Project
 
 - In this project we demonstrate functions overloading and more specificly operators overloading in C++. 
 - The implementations of the operators are in the `Graph.cpp` class.
 
-- `+`: This operator is used to add two graphs together. It takes two graphs as input and returns a new graph. If the input graphs are not of the same size, an exception is thrown.
+### Addition, incremention, and Unary+ operators
+- `+`: This operator is used to add two graphs together. It takes two graphs as input and returns a new graph. If the input graphs are not of the same size, an exception is thrown. Usage example: `g1 = g2 + g3`.
 
-- `+=`: This operator is used to add a graph to the current graph. It takes a graph as input and modifies the current graph. If the input graph is not of the same size as the current graph, an exception is thrown.
+- `+=`: This operator is used to assign an addition of a graph to the current graph. It takes a graph as input and modifies the current graph. If the input graph is not of the same size as the current graph, an exception is thrown. Usage example: `g1 += g2`.
 
-### Subtraction Operators
+- `++`: Ive overloaded the prefix and postfix types of this operator, it increments the current graph by 1 as long as the cell in the matrix is not 0 (meaning no edge). Usage example: `g++` or `++g`.
 
-- `-`: This operator is used to subtract one graph from another. It takes two graphs as input and returns a new graph. If the input graphs are not of the same size, an exception is thrown.
+- `+Graph`: this operator doesnt have any effect really on the graph, returns the graph itself. Usage example: `+g`.
 
-- `-=`: This operator is used to subtract a graph from the current graph. It takes a graph as input and modifies the current graph. If the input graph is not of the same size as the current graph, an exception is thrown.
+### Subtraction ,decrement and Unary- Operators
+
+- `-`: This operator is used to subtract one graph from another. It takes two graphs as input and returns a new graph. If the input graphs are not of the same size, an exception is thrown. Usage example: `g1 = g2 - g3`
+
+- `-=`: This operator is used to subtract a graph from the current graph. It takes a graph as input and assigns the new value to the current graph. If the input graph is not of the same size as the current graph, an exception is thrown. Usage example: `g1 -= g2`.
+
+- `-Graph`: 
 
 ### Multiplication Operators
 

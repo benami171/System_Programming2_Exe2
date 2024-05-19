@@ -406,7 +406,10 @@ namespace ariel
         {
             for (size_t j = 0; j < resGraph.adjacencyMatrix[i].size(); j++)
             {
+                if (resGraph.adjacencyMatrix[i][j] != 0)
+                {
                 resGraph.adjacencyMatrix[i][j] = -resGraph.adjacencyMatrix[i][j];
+                }
             }
         }
 
