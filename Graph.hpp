@@ -38,7 +38,7 @@ public:
 // MULTIPLICATION OPERATORS
     Graph operator*(const Graph &g) const;
     Graph operator*(int scalar) const;
-    // to allow the commutative property of multiplication
+    // to allow the commutative property of multiplication in the case of scalar multiplication
     friend Graph operator*(int scalar, const Graph& g);
     Graph& operator*=(const int &scalar);
 
