@@ -180,9 +180,9 @@ TEST_CASE("Test graph multiplication")
         ariel::Graph g2 = g1 * 2;
         g2 = -2 * g2;
         vector<vector<int>> expectedGraph = {
-            { 0,-4, 0},
-            {-4, 0,-4},
-            { 0,-4, 0}};
+            {0, -4, 0},
+            {-4, 0, -4},
+            {0, -4, 0}};
         ariel::Graph g13;
         g13.loadGraph(expectedGraph);
         CHECK((g2 == g13) == true);
@@ -239,8 +239,115 @@ TEST_CASE("Test Graph division")
 
     ariel::Graph g2;
     g2.loadGraph(expectedGraph);
-    CHECK((g1 == g2) == true);  
+    CHECK((g1 == g2) == true);
 
+    CHECK_THROWS(g1 /= 0);
+    // CHECK((g1 == g2) == true); // division by zero is still the same matrix
+}
+
+TEST_CASE("Test Increment and Decrement operators")
+{
+    SUBCASE("prefix incremention")
+    {
+        ariel::Graph g1;
+        vector<vector<int>> graph = {
+            {0, 0, 1},
+            {1, 0, 0},
+            {0, 1, 0}};
+        g1.loadGraph(graph);
+
+        ariel::Graph g2;
+        vector<vector<int>> expectedGraph = {
+            {0, 0, 2},
+            {2, 0, 0},
+            {0, 2, 0}};
+        g2.loadGraph(expectedGraph);
+
+        ariel::Graph g3;
+        ariel::Graph g4;
+        vector<vector<int>> zeroMat = {
+            {0, 0, 0},
+            {0, 0, 0},
+            {0, 0, 0}};
+        g3.loadGraph(zeroMat);
+        g4.loadGraph(zeroMat);
+        ++g1;
+        ++g3;
+        CHECK((g1 == g2) == true);
+        CHECK((g3 == g4) == true); //++ on zero matrix is still zero matrix
+    }
+
+    SUBCASE("postfix incremention")
+    {
+        ariel::Graph g1;
+        vector<vector<int>> graph = {
+            {0, 0, 1},
+            {1, 0, 0},
+            {0, 1, 0}};
+        vector<vector<int>> graph2 = {
+            {0, 0, 2},
+            {2, 0, 0},
+            {0, 2, 0}};
+
+        g1.loadGraph(graph);
+        ariel::Graph g2;
+        g2.loadGraph(graph2);
+        g1++;
+        CHECK((g1 == g2) == true);
+
+        ariel::Graph g3;
+        ariel::Graph g4;
+        vector<vector<int>> zeroMat = {
+            {0, 0, 0},
+            {0, 0, 0},
+            {0, 0, 0}};
+        g3.loadGraph(zeroMat);
+        g4.loadGraph(zeroMat);
+        g3++;
+
+        CHECK((g3 == g4) == true); //++ on zero matrix is still zero matrix
+    }
+    SUBCASE("prefix decremention")
+    {
+        ariel::Graph g1;
+        vector<vector<int>> graph = {
+            {0, 0, 1},
+            {1, 0, 0},
+            {0, 1, 0}};
+        g1.loadGraph(graph);
+
+        ariel::Graph g2;
+        vector<vector<int>> expectedGraph = {
+            {0, 0, 0},
+            {0, 0, 0},
+            {0, 0, 0}};
+        g2.loadGraph(expectedGraph);
+
+        --g1;
+        CHECK((g1 == g2) == true);
+        --g1;
+        CHECK((g1 == g2) == true); // -- on zero matrix is still zero matrix
+    }
+    SUBCASE("postfix decremention")
+    {
+        ariel::Graph g1;
+        vector<vector<int>> graph = {
+            {0, 0, 1},
+            {1, 0, 0},
+            {0, 1, 0}};
+        vector<vector<int>> graph2 = {
+            {0, 0, 0},
+            {0, 0, 0},
+            {0, 0, 0}};
+
+        g1.loadGraph(graph);
+        ariel::Graph g2;
+        g2.loadGraph(graph2);
+        g1--;
+        CHECK((g1 == g2) == true);
+        g1--;
+        CHECK((g1 == g2) == true); // -- on zero matrix is still zero matrix
+    }
 }
 
 TEST_CASE("Invalid operations")
@@ -272,45 +379,4 @@ TEST_CASE("Invalid operations")
         {1, 0, 0, 1, 0}};
     g6.loadGraph(graph3);
     CHECK_THROWS(g1 + g6);
-}
-
-TEST_CASE("Test Increment and Decrement operators")
-{
-    ariel::Graph g1;
-    vector<vector<int>> graph = {
-        {0, 0, 1},
-        {1, 0, 0},
-        {0, 1, 0}};
-    vector<vector<int>> graph2 = {
-        {0, 0, 3},
-        {3, 0, 0},
-        {0, 3, 0}};
-    vector<vector<int>> graph3 = {
-        {0, 0, 1},
-        {1, 0, 0},
-        {0, 1, 0}};
-    g1.loadGraph(graph);
-    ariel::Graph g2;
-    g2.loadGraph(graph2);
-    ariel::Graph g3;
-    g3.loadGraph(graph3);
-    g1++;
-    ++g1;
-    CHECK((g1 == g2) == true); // supposed to be equal, ++ on zero matrix is still zero matrix
-
-    g1--;
-    --g1;
-    CHECK((g1 == g3) == true); // supposed to be equal, -- on zero matrix is still zero matrix
-
-    ariel::Graph g4;
-    vector<vector<int>> zeroMat = {
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0}};
-    g4.loadGraph(zeroMat);
-    ariel::Graph g5;
-    g5.loadGraph(zeroMat);
-    g5++;
-    ++g5;
-    CHECK((g4 == g5) == true); // supposed to be equal, ++ on zero matrix is still zero matrix
 }

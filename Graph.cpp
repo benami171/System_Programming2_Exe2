@@ -500,6 +500,10 @@ namespace ariel
 
     Graph &Graph::operator/=(const int &scalar)
     {
+        if (scalar == 0)
+        {
+            throw invalid_argument("Division by zero is not allowed.");
+        }
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
