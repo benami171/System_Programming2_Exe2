@@ -46,7 +46,7 @@ Usage exampl: `g1 = g2 * g3`
 - `getNumEdges()`: added method to help me in the comparison operators.
 
 ### In Algorithms.cpp , Algorithms.hpp.
--
+- none.
 
 
 ## How to Run
