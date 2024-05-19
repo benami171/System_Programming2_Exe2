@@ -78,11 +78,29 @@ TEST_CASE("Test graph addition")
 
     SUBCASE("Test algorithms")
     {
+
+        ariel::Graph g20;
+        vector<vector<int>> negativeCycle = {
+            {0, 1, 0},
+            {1, 0, 1},
+            {0, -2, 0}};
+        g20.loadGraph(negativeCycle);
+        vector<vector<int>> graph21 = {
+            {0, 0, 1},
+            {0, 0, 0},
+            {0, 3, 0}};
+        ariel::Graph g21;
+        ariel::Graph g22;
+        g21.loadGraph(graph21);
+        g22 = g20 + g21; // this will cancel the negative cycle of g20
+        CHECK(ariel::Algorithms::shortestPath(g20,0,2) == "Negative cycle detected");
+        CHECK(ariel::Algorithms::shortestPath(g22,0,2) == "0->2");
+        CHECK(ariel::Algorithms::negativeCycle(g22) == "Graph does not contain a negative cycle");
         CHECK(g3.getIsDirected() == false);
         CHECK(ariel::Algorithms::isConnected(g3) == true);
         CHECK(ariel::Algorithms::isContainsCycle(g3) != "0");
         CHECK(ariel::Algorithms::isBipartite(g3) == "Graph is not Bipartite");
-        CHECK(ariel::Algorithms::shortestPath(g3, 1, 2) == "1->2");
+        CHECK(ariel::Algorithms::shortestPath(g3, 0, 2) == "0->2");
     }
 }
 TEST_CASE("Test graph subtraction")
