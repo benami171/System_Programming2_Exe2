@@ -37,15 +37,15 @@ Usage exampl: `g1 = g2 * g3`
 
 ### Printing operator
 
-- `<<`: this operator will access the matrix of the graph and print
-## Changes made from exe1
+- `<<`: This operator is overloaded to print the adjacency matrix of the graph. It is declared as a friend function of the Graph class. This is necessary because the << operator needs to access the private data members of the Graph class (the adjacency matrix) which wouldn't be possible without the friend keyword. The operator iterates over each row and column of the matrix, printing each element in a formatted manner. Each row is enclosed in square brackets and elements are separated by commas. Each row of the matrix is printed on a new line.
 
-### In Graph.cpp , Graph.hpp.
+
+## Changes made from exe1 In Graph
 - `getNumVertices()`,`getAdjacencyMatrix()`,`getIsDirected()`,`getWeightsType()`: made const methods.
 - `loadGraph()`: if the matrix is assymetric and the graph was set to Undirected, it will be set as directed from now and there wont be exception throwing.
 - `getNumEdges()`: added method to help me in the comparison operators.
 
-### In Algorithms.cpp , Algorithms.hpp.
+## Changes made from exe1 In Algorithms
 - none.
 
 
