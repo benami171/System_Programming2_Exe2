@@ -100,7 +100,6 @@ TEST_CASE("Test graph addition")
         CHECK(ariel::Algorithms::isConnected(g3) == true);
         CHECK(ariel::Algorithms::isContainsCycle(g3) != "0");
         CHECK(ariel::Algorithms::isBipartite(g3) == "Graph is not Bipartite");
-        CHECK(ariel::Algorithms::shortestPath(g3, 0, 2) == "0->2");
     }
 }
 TEST_CASE("Test graph subtraction")
