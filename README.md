@@ -48,20 +48,19 @@ Usage exampl: `g1 = g2 * g3`
 ## Changes made from exe1 In Algorithms
 - none.
 
-
 ## How to Run
 
 The project includes a Makefile for easy compilation and running of the code. Here are some commands you can use:
 
-- `make run`: Compiles the code and runs the demo.
-- `make demo`: Compiles the code for the demo.
-- `make test`: Compiles the code for the tests.
+- `make `: Compiles the code and runs the demo.
+- `make test`: Compiles the code for the tests and run tests.
 - `make tidy`: Runs clang-tidy on the source files to check for code quality issues.
 - `make valgrind`: Runs valgrind on the demo and test executables to check for memory leaks.
 - `make clean`: Removes all compiled files.
 
 ## Testing
 
+- In `Test.c` i have added a lot of test to check if the operators works correctly on different matrices scenarios, and added test to see if after the changes made by the operators, the algorithms still works well.
 
 
 

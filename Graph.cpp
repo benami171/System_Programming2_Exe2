@@ -463,6 +463,7 @@ namespace ariel
         return resGraph;
     }
 
+    // Overloading the * operator to multiply the graph by a scalar.
     Graph Graph::operator*(int scalar) const
     {
         Graph resGraph(*this);
@@ -476,6 +477,7 @@ namespace ariel
         return resGraph;
     }
 
+    // to allow commutative multiplication of the graph by a scalar.
     Graph operator*(int scalar, const Graph &g)
     {
         return g * scalar;
