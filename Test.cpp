@@ -93,8 +93,8 @@ TEST_CASE("Test graph addition")
         ariel::Graph g22;
         g21.loadGraph(graph21);
         g22 = g20 + g21; // this will cancel the negative cycle of g20
-        CHECK(ariel::Algorithms::shortestPath(g20,0,2) == "Negative cycle detected");
-        CHECK(ariel::Algorithms::shortestPath(g22,0,2) == "0->2");
+        CHECK(ariel::Algorithms::shortestPath(g20, 0, 2) == "Negative cycle detected");
+        CHECK(ariel::Algorithms::shortestPath(g22, 0, 2) == "0->2");
         CHECK(ariel::Algorithms::negativeCycle(g22) == "Graph does not contain a negative cycle");
         CHECK(g3.getIsDirected() == false);
         CHECK(ariel::Algorithms::isConnected(g3) == true);
@@ -157,20 +157,20 @@ TEST_CASE("Test graph subtraction")
 
         // example of using shortestPath and how after subtraction it makes a shorter path available between two graphs.
         vector<vector<int>> longPath{
-            {0,2,5},
-            {8,0,6},
-            {0,3,0}};
+            {0, 2, 5},
+            {8, 0, 6},
+            {0, 3, 0}};
         vector<vector<int>> graph8{
-            {0,1,0},
-            {8,0,3},
-            {0,3,0}};
+            {0, 1, 0},
+            {8, 0, 3},
+            {0, 3, 0}};
         ariel::Graph g7;
         ariel::Graph g8;
         g7.loadGraph(longPath);
         g8.loadGraph(graph8);
-        CHECK(ariel::Algorithms::shortestPath(g7,0,2) == "0->2");
+        CHECK(ariel::Algorithms::shortestPath(g7, 0, 2) == "0->2");
         ariel::Graph g9 = g7 - g8;
-        CHECK(ariel::Algorithms::shortestPath(g9,0,2) == "0->1->2");
+        CHECK(ariel::Algorithms::shortestPath(g9, 0, 2) == "0->1->2");
         CHECK(ariel::Algorithms::isBipartite(g9) == "Graph is not Bipartite");
         CHECK(ariel::Algorithms::isConnected(g9) == false);
         CHECK(ariel::Algorithms::isContainsCycle(g9) == "0");
@@ -385,6 +385,28 @@ TEST_CASE("Test Increment and Decrement operators")
         g1--;
         CHECK((g1 == g2) == true); // -- on zero matrix is still zero matrix
     }
+}
+
+TEST_CASE("Test comparison operators >,<,>=,<=,==,!=")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 2, 0}};
+    g1.loadGraph(graph);
+    ariel::Graph g2;
+    vector<vector<int>> weightedGraph = {
+        {0, 1, 1},
+        {1, 0, 2},
+        {1, 2, 0}};
+    g2.loadGraph(weightedGraph);
+
+    CHECK((g1 < g2) == false); 
+    CHECK((g1 > g2) == true);
+    CHECK((g1 <= g2) == false);
+    CHECK((g1 >= g2) == true);
+
 }
 
 TEST_CASE("Invalid operations")
