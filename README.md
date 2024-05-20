@@ -41,8 +41,8 @@ Usage exampl: `g1 = g2 * g3`
 
 
 ## Changes made from exe1 In Graph
-- `getNumVertices()`,`getAdjacencyMatrix()`,`getIsDirected()`,`getWeightsType()`: made const methods.
-- `loadGraph()`: if the matrix is assymetric and the graph was set to Undirected, it will be set as directed from now and there wont be exception throwing.
+- `getNumVertices()`,`getAdjacencyMatrix()`,`getIsDirected()`,`getWeightsType()`: made const methods, best practice.
+- `loadGraph()`: if the matrix is assymetric and the graph is undirected, it will be set as directed from now and there wont be exception throwing.
 - `getNumEdges()`: added method to help me in the comparison operators.
 
 ## Changes made from exe1 In Algorithms
