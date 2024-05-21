@@ -494,6 +494,7 @@ namespace ariel
     }
 
     // Overloading the * operator to multiply the graph by a scalar.
+    // the method returns a new graph with all its elements multiplied by the scalar.
     Graph Graph::operator*(int scalar) const
     {
         Graph resGraph(*this);
@@ -501,6 +502,7 @@ namespace ariel
         {
             for (size_t j = 0; j < resGraph.adjacencyMatrix[i].size(); j++)
             {
+                // dont mind the zeros as they will remain zeros.
                 resGraph.adjacencyMatrix[i][j] *= scalar;
             }
         }
@@ -514,12 +516,14 @@ namespace ariel
     }
 
     // Overloading the *= operator to multiply the graph by a scalar.
+    // the method returns the graph itself with all its elements multiplied by the scalar.
     Graph &Graph::operator*=(const int &scalar)
     {
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
+                // dont mind the zeros as they will remain zeros.
                 this->adjacencyMatrix[i][j] *= scalar;
             }
         }
@@ -530,6 +534,8 @@ namespace ariel
             implementing /= operator overloading.
     */
 
+   // Overloading the /= operator to divide the graph by a scalar.
+   // the method returns the graph itself with all its elements divided by the scalar.
     Graph &Graph::operator/=(const int &scalar)
     {
         if (scalar == 0)
@@ -556,7 +562,8 @@ namespace ariel
     // Overloading the < operator, G1<G2 if G1 matrix is submatrix of G2 matrix.
     // if G1 is not a submatrix of G2 and G2 is not a submatrix of G1,
     // then G1<G2 if the sum of edges in G1 is less than the sum of edges in G2.
-    // if the sum of edges is equal
+    // if the sum of edges is equal in both graphs, then G1<G2 if the number of vertices in G1
+    // is less than the number of vertices in G2.
 
     bool Graph::operator<(const Graph &g) const
     {
