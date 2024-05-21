@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include "Graph.hpp"
 #include <climits>
-#include <iomanip> 
+#include <iomanip>
 
 using namespace std;
 
@@ -179,44 +179,74 @@ namespace ariel
     */
 
     // return true if g1 contains g2, otherwise return false.
+    // bool Graph::isContains(const Graph &g) const
+    // {
+    //     if (g.adjacencyMatrix.size() > this->adjacencyMatrix.size())
+    //     {
+    //         return false;
+    //     }
+    //     int diff = this->adjacencyMatrix[0].size() - g.adjacencyMatrix[0].size();
+
+    //     int equalCount = 0;
+    //     // cout << "this: \n" << *this << endl;
+    //     // cout << "g: \n" << g << endl;
+
+    //     for (size_t t = 0; t < diff; t++)
+    //     {
+    //         for (size_t i = 0; i < g.adjacencyMatrix[0].size(); i++)
+    //         {
+    //             for (size_t j = 0; j < g.adjacencyMatrix[0].size(); j++)
+    //             {
+    //                 // cout << "this[i+t][j+t] = " << this->adjacencyMatrix[i+t][j+t] << " g[i][j] = " << g.adjacencyMatrix[i][j] << endl;
+    //                 if (this->adjacencyMatrix[i + t][j + t] == g.adjacencyMatrix[i][j])
+    //                 {
+    //                     equalCount++;
+    //                 }
+    //                 else
+    //                 {
+    //                     equalCount = 0;
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     if (equalCount == g.adjacencyMatrix[0].size() * g.adjacencyMatrix[0].size())
+    //     {
+    //         return true;
+    //     }
+
+    //     return false;
+    // }
+
     bool Graph::isContains(const Graph &g) const
     {
-        if (g.adjacencyMatrix.size() > this->adjacencyMatrix.size())
-        {
-            return false;
-        }
-        int diff = this->adjacencyMatrix[0].size() - g.adjacencyMatrix[0].size();
+        int n = this->adjacencyMatrix.size();
+        int m = g.adjacencyMatrix.size();
 
-        int equalCount = 0;
-        // cout << "this: \n" << *this << endl;
-        // cout << "g: \n" << g << endl;
+        if (m > n)
+            return false; // If submatrix is larger than the matrix, it can't be a submatrix
 
-        for (size_t t = 0; t < diff; t++)
+        for (int k = 0; k <= n - m; k++)
         {
-            for (size_t i = 0; i < g.adjacencyMatrix[0].size(); i++)
+            for (int l = 0; l <= n - m; l++)
             {
-                for (size_t j = 0; j < g.adjacencyMatrix[0].size(); j++)
+                bool isSubMatrix = true; // Assume it is a submatrix until proven otherwise
+                for (int i = 0; i < m && isSubMatrix; i++)
                 {
-                    // cout << "this[i+t][j+t] = " << this->adjacencyMatrix[i+t][j+t] << " g[i][j] = " << g.adjacencyMatrix[i][j] << endl;
-                    if (this->adjacencyMatrix[i + t][j + t] == g.adjacencyMatrix[i][j])
+                    for (int j = 0; j < m && isSubMatrix; j++)
                     {
-                        equalCount++;
-                    }
-                    else
-                    {
-                        equalCount = 0;
-                        break;
+                        if (this->adjacencyMatrix[k + i][l + j] != g.adjacencyMatrix[i][j])
+                        {
+                            isSubMatrix = false; // Mismatch found, set flag to false
+                        }
                     }
                 }
+                if (isSubMatrix)
+                    return true; // If all elements matched, return true
             }
         }
-
-        if (equalCount == g.adjacencyMatrix[0].size() * g.adjacencyMatrix[0].size())
-        {
-            return true;
-        }
-
-        return false;
+        return false; // No matching submatrix found
     }
 
     /*
@@ -408,7 +438,7 @@ namespace ariel
             {
                 if (resGraph.adjacencyMatrix[i][j] != 0)
                 {
-                resGraph.adjacencyMatrix[i][j] = -resGraph.adjacencyMatrix[i][j];
+                    resGraph.adjacencyMatrix[i][j] = -resGraph.adjacencyMatrix[i][j];
                 }
             }
         }
