@@ -71,6 +71,7 @@ int main()
     {
         cout << e.what() << endl; // Should print "The size of the matrices is not the same."
     }
+    cout << "" << endl;
 
     vector<vector<int>> weightedGraph2 = {
         {0, 1, 1},

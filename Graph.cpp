@@ -36,7 +36,8 @@ namespace ariel
     }
 
     // Loads a graph from an adjacency matrix. Throws an exception if the matrix is not square,
-    // if the diagonal is not zero, or if the matrix is not symmetric for an undirected graph.
+    // if the diagonal is not zero.
+    // if the graph is undirected and the matrix is not symmetric, we set the graph to be directed.
     void Graph::loadGraph(vector<vector<int>> &matrix)
     {
         if (matrix.empty() || matrix[0].size() < 2)
@@ -63,7 +64,6 @@ namespace ariel
                 if (matrix[i][j] != matrix[j][i] && !this->isDirected)
                 {
                     this->isDirected = true;
-                    //  throw invalid_argument("Undirected graph should have symmetric adjacency matrix");
                 }
             }
         }
@@ -107,8 +107,6 @@ namespace ariel
         return this->containsNegativeCycle;
     }
 
-    // check if the graph is directed or undirected
-    // by comparing the adjacency matrix with its transpose
     void Graph::setIsDirected(bool type)
     {
         this->isDirected = type;
@@ -177,48 +175,6 @@ namespace ariel
         will helps us in operator< overloading.
 
     */
-
-    // return true if g1 contains g2, otherwise return false.
-    // bool Graph::isContains(const Graph &g) const
-    // {
-    //     if (g.adjacencyMatrix.size() > this->adjacencyMatrix.size())
-    //     {
-    //         return false;
-    //     }
-    //     int diff = this->adjacencyMatrix[0].size() - g.adjacencyMatrix[0].size();
-
-    //     int equalCount = 0;
-    //     // cout << "this: \n" << *this << endl;
-    //     // cout << "g: \n" << g << endl;
-
-    //     for (size_t t = 0; t < diff; t++)
-    //     {
-    //         for (size_t i = 0; i < g.adjacencyMatrix[0].size(); i++)
-    //         {
-    //             for (size_t j = 0; j < g.adjacencyMatrix[0].size(); j++)
-    //             {
-    //                 // cout << "this[i+t][j+t] = " << this->adjacencyMatrix[i+t][j+t] << " g[i][j] = " << g.adjacencyMatrix[i][j] << endl;
-    //                 if (this->adjacencyMatrix[i + t][j + t] == g.adjacencyMatrix[i][j])
-    //                 {
-    //                     equalCount++;
-    //                 }
-    //                 else
-    //                 {
-    //                     equalCount = 0;
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     if (equalCount == g.adjacencyMatrix[0].size() * g.adjacencyMatrix[0].size())
-    //     {
-    //         return true;
-    //     }
-
-    //     return false;
-    // }
-
     bool Graph::isContains(const Graph &g) const
     {
         int n = this->adjacencyMatrix.size();
@@ -346,7 +302,7 @@ namespace ariel
         return temp;
     }
 
-    // Overloading the Prefix -- operator to decrement all the elements of the graph by 1.
+    // Overloading the Prefix -- operator to reduce all the elements of the graph by 1.
     Graph &Graph::operator--()
     {
         for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
@@ -354,7 +310,7 @@ namespace ariel
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
                 if (i != j && this->adjacencyMatrix[i][j] != 0) // we dont want to create new edges, self loops.
-                {                                                
+                {
                     this->adjacencyMatrix[i][j]--;
                 }
             }
@@ -362,7 +318,7 @@ namespace ariel
         return *this;
     }
 
-    // Overloading the Postfix -- operator to decrement all the elements of the graph by 1.
+    // Overloading the Postfix -- operator to reduce all the elements of the graph by 1.
     Graph Graph::operator--(int)
     {
         Graph temp(*this);
@@ -534,8 +490,8 @@ namespace ariel
             implementing /= operator overloading.
     */
 
-   // Overloading the /= operator to divide the graph by a scalar.
-   // the method returns the graph itself with all its elements divided by the scalar.
+    // Overloading the /= operator to divide the graph by a scalar.
+    // the method returns the graph itself with all its elements divided by the scalar.
     Graph &Graph::operator/=(const int &scalar)
     {
         if (scalar == 0)
@@ -652,7 +608,15 @@ namespace ariel
         return !(*this == g);
     }
 
-    // Overloading the << operator to print the adjacency matrix of the graph.
+    /**
+     * Overloads the << operator to allow easy printing of the Graph object.
+     *
+     * @param os The output stream (e.g., std::cout) where the graph will be printed.
+     * @param g The Graph object that contains the adjacency matrix to be printed.
+     * @return std::ostream& The same output stream to enable chaining of << operators. (e.g., std::cout << g1 << g2 << g3;)
+     *
+     * The matrix will be printed row by row, with each row inside square brackets.
+     */
     std::ostream &operator<<(std::ostream &os, const Graph &g)
     {
         for (size_t i = 0; i < g.getAdjacencyMatrix().size(); i++)
@@ -660,8 +624,9 @@ namespace ariel
             os << "[";
             for (size_t j = 0; j < g.getAdjacencyMatrix()[i].size(); j++)
             {
-
+                // to format the output with a minimum field width of 2 for better alignment.
                 os << std::setw(2) << g.getAdjacencyMatrix()[i][j];
+                // if not the last element in the row, add a comma.
                 if (j != g.getAdjacencyMatrix()[i].size() - 1)
                 {
                     os << ",";
