@@ -227,14 +227,14 @@ namespace ariel
         if (m > n)
             return false; // If submatrix is larger than the matrix, it can't be a submatrix
 
-        for (int k = 0; k <= n - m; k++)
+        for (size_t k = 0; k <= n - m; k++)
         {
-            for (int l = 0; l <= n - m; l++)
+            for (size_t l = 0; l <= n - m; l++)
             {
                 bool isSubMatrix = true; // Assume it is a submatrix until proven otherwise
-                for (int i = 0; i < m && isSubMatrix; i++)
+                for (size_t i = 0; i < m && isSubMatrix; i++)
                 {
-                    for (int j = 0; j < m && isSubMatrix; j++)
+                    for (size_t j = 0; j < m && isSubMatrix; j++)
                     {
                         if (this->adjacencyMatrix[k + i][l + j] != g.adjacencyMatrix[i][j])
                         {
