@@ -440,6 +440,21 @@ TEST_CASE("Test comparison operators >,<,>=,<=,==,!=")
     CHECK((g3 >= g6) == false);
     CHECK((g6.isContains(g3)) == false);
 
+    ariel::Graph g7;
+    vector<vector<int>> graph7 = {
+        {0, 1, 0},
+        {0, 0, 0},
+        {0, 0, 0}};
+    g7.loadGraph(graph7);
+
+    ariel::Graph g8;
+    vector<vector<int>> graph8 = {
+        {0, 1},
+        {2, 0}};
+    g8.loadGraph(graph8);
+
+    CHECK((g7 < g8) == true); // g8 doesnt contain g7 but it has more edges.
+
 }
 
 TEST_CASE("Invalid operations")
