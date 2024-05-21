@@ -74,7 +74,6 @@ namespace ariel
     // and the number of vertices and edges.
     void Graph::printGraph()
     {
-        bool type = getIsDirected();
         int edges = 0;
         for (size_t i = 0; i < adjacencyMatrix.size(); ++i)
         {
@@ -140,7 +139,6 @@ namespace ariel
     size_t Graph::getNumEdges() const
     {
 
-        bool type = getIsDirected();
         size_t edges = 0;
 
         for (size_t i = 0; i < adjacencyMatrix.size(); ++i)
@@ -155,7 +153,8 @@ namespace ariel
         }
         if (!this->isDirected)
         {
-            return edges /= 2;
+            size_t ans = edges / 2;
+            return ans;
         }
         else
         {
@@ -523,45 +522,29 @@ namespace ariel
 
     bool Graph::operator<(const Graph &g) const
     {
-        // if g contains this, return true as this<g.
+        // If g contains this, return true as this < g.
         if (g.isContains(*this))
         {
             return true;
         }
 
-        // if g doesnt contain this, and this contains g, return false as this>g.
+        // If this contains g, return false as this > g.
         if (this->isContains(g))
         {
             return false;
         }
 
-        // if g and this are not submatrices of each other, then compare the sum of edges.
+        // Compare the number of edges
         size_t thisEdges = this->getNumEdges();
         size_t gEdges = g.getNumEdges();
 
-        if (thisEdges < gEdges)
+        if (thisEdges != gEdges)
         {
-            return true;
+            return (thisEdges < gEdges);
         }
-        else if (thisEdges > gEdges)
-        {
-            return false;
-        }
-        else // if thisEdges == gEdges
-        {
-            if (this->numVertices < g.numVertices)
-            {
-                return true;
-            }
-            else if (this->numVertices > g.numVertices)
-            {
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
+        // If the number of edges is equal, compare the number of vertices
+        return (this->numVertices < g.numVertices);
     }
 
     bool Graph::operator<=(const Graph &g) const
@@ -579,9 +562,15 @@ namespace ariel
         return g <= *this;
     }
 
+    /**
+     * Overloads the == operator to compare two Graph objects.
+     * This method compares the adjacency matrices of two Graph objects.
+     * If the number of vertices in both graphs are the same, it compares each element in the adjacency matrices.
+     * If the number of vertices are different, it checks if neither graph is less than the other.
+     */
     bool Graph::operator==(const Graph &g) const
     {
-
+        // If the number of vertices are equal, compare the adjacency matrices
         if (this->numVertices == g.numVertices)
         {
             for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
@@ -590,17 +579,18 @@ namespace ariel
                 {
                     if (this->adjacencyMatrix[i][j] != g.adjacencyMatrix[i][j])
                     {
-                        return false;
+                        return false; // Mismatch found
                     }
                 }
             }
-            return true;
-        } // if not, check if G1 !< G2 and G2 !< G1
-        else if (!((*this) < (g)) && !(g < (*this)))
-        {
-            return true;
+            return true; // All elements matched
         }
-        return false;
+        // If the number of vertices are different, check if neither graph is less than the other
+        else if (!((*this) < g) && !(g < *this))
+        {
+            return true; // Graphs are equal in terms of structural connections
+        }
+        return false; // Graphs are not equal
     }
 
     bool Graph::operator!=(const Graph &g) const

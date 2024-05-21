@@ -4,7 +4,7 @@ CXX=clang++
 CXXFLAGS=-std=c++11 -g -Werror -Wsign-conversion
 VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 
-SOURCES=Graph.cpp Algorithms.cpp #TestCounter.cpp Test.cpp
+SOURCES=Graph.cpp Algorithms.cpp 
 OBJECTS=$(subst .cpp,.o,$(SOURCES))
 
 run: demo
@@ -18,7 +18,6 @@ test: TestCounter.o Test.o $(OBJECTS)
 
 tidy:
 	clang-tidy $(SOURCES) -checks=bugprone-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,clang-analyzer-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=-* --
-
 
 valgrind: demo test
 	valgrind --tool=memcheck $(VALGRIND_FLAGS) ./demo 2>&1 | { egrep "lost| at " || true; }
