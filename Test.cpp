@@ -364,6 +364,16 @@ TEST_CASE("Test Increment and Decrement operators")
         CHECK((g1 == g2) == true);
         --g1;
         CHECK((g1 == g2) == true); // -- on zero matrix is still zero matrix
+
+        ariel::Graph g3;
+        vector<vector<int>> graph3 = {
+            {0, 1, 3},
+            {-1, 0, 3},
+            {2, -1, 0}};
+        g3.loadGraph(graph3);
+        CHECK((ariel::Algorithms::shortestPath(g3, 0, 2) == "0->2"));
+        --g3; // causing a negative cycle in the graph
+        CHECK((ariel::Algorithms::shortestPath(g3, 0, 2) == "Negative cycle detected"));
     }
     SUBCASE("postfix decremention")
     {

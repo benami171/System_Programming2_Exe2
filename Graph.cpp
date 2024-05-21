@@ -327,7 +327,7 @@ namespace ariel
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
-                if (i != j && this->adjacencyMatrix[i][j] != 0)
+                if (i != j && this->adjacencyMatrix[i][j] != 0) // we dont want to create new edges or self loops.
                 {
                     this->adjacencyMatrix[i][j]++;
                 }
@@ -353,8 +353,8 @@ namespace ariel
         {
             for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
             {
-                if (i != j && this->adjacencyMatrix[i][j] != 0)
-                {
+                if (i != j && this->adjacencyMatrix[i][j] != 0) // we dont want to create new edges, self loops.
+                {                                                
                     this->adjacencyMatrix[i][j]--;
                 }
             }
