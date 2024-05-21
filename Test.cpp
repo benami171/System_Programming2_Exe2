@@ -396,16 +396,48 @@ TEST_CASE("Test comparison operators >,<,>=,<=,==,!=")
         {0, 2, 0}};
     g1.loadGraph(graph);
     ariel::Graph g2;
-    vector<vector<int>> weightedGraph = {
+    vector<vector<int>> graph2 = {
         {0, 1, 1},
         {1, 0, 2},
         {1, 2, 0}};
-    g2.loadGraph(weightedGraph);
+    g2.loadGraph(graph2);
 
     CHECK((g1 < g2) == false); 
-    CHECK((g1 > g2) == true);
+    CHECK((g1 > g2) == true); // the graphs are not contained in each other and g2 is undirected graph with less edges.
     CHECK((g1 <= g2) == false);
-    CHECK((g1 >= g2) == true);
+    CHECK((g1 >= g2) == true); // g1 > g2
+    CHECK((g1 == g2) == false);
+
+    ariel::Graph g3;
+    vector<vector<int>> graph3 = {
+        {0, 5},
+        {0, 0}};
+    g3.loadGraph(graph3);
+    ariel::Graph g4;
+    vector<vector<int>> graph4 = {
+        {0, 0 ,5},
+        {0, 0, 0},
+        {5, 0, 0}};
+    g4.loadGraph(graph4);
+    ariel::Graph g5;
+    vector<vector<int>> graph5 = {
+        {0, 1, 5},
+        {0, 0, 5},
+        {0, 0, 0}};
+    g5.loadGraph(graph5);
+    ariel::Graph g6;
+    vector<vector<int>> graph6 = {
+        {0, 1, 5},
+        {0, 0, 0},
+        {0, 0, 0}};
+    g6.loadGraph(graph6);
+    CHECK((g3 < g4) == true); // g4 contains g3
+    CHECK((g3 < g5) == true); // g5 contains g3
+    CHECK((g3 < g6) == true); // g6 does not contain g3 but it has more edges
+    CHECK((g3 > g6) == false);
+    CHECK((g3 <= g6) == true);
+    CHECK((g3 >= g6) == false);
+    CHECK((g6.isContains(g3)) == false);
 
 }
 
