@@ -407,6 +407,7 @@ TEST_CASE("Test comparison operators >,<,>=,<=,==,!=")
     CHECK((g1 <= g2) == false);
     CHECK((g1 >= g2) == true); // g1 > g2
     CHECK((g1 == g2) == false);
+    CHECK((g1 != g2) == true);
 
     ariel::Graph g3;
     vector<vector<int>> graph3 = {
