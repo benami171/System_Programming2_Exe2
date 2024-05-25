@@ -525,6 +525,9 @@ namespace ariel
         // If g contains this, return true as this < g.
         if (g.isContains(*this))
         {
+            if (g.getNumVertices() == this ->getNumVertices()){
+                return false; // because in this case it means that they are the same matrix.
+            }
             return true;
         }
 

@@ -35,6 +35,10 @@ Usage exampl: `g1 = g2 * g3`
 
 - `/=`: Given a scalar, divide each cell in the matrix by it (only if the cell is not 0), the new value assigned to the current graph's matrix. Usage example: `g1 /= 2`
 
+### Comparing operators
+
+
+
 ### Printing operator
 
 - `<<`: This operator is overloaded to print the adjacency matrix of the graph. It is declared as a friend function of the Graph class. This is necessary because the << operator needs to access the private data members of the Graph class (the adjacency matrix) which wouldn't be possible without the friend keyword. The operator iterates over each row and column of the matrix, printing each element in a formatted manner. Each row is enclosed in square brackets and elements are separated by commas. Each row of the matrix is printed on a new line.
