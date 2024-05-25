@@ -26,7 +26,7 @@ namespace ariel
                 {
                     return -1;
                 }
-                else if (matrix[i][j] > 0)
+                if (matrix[i][j] > 0)
                 {
                     type = 1;
                 }
@@ -156,10 +156,8 @@ namespace ariel
             size_t ans = edges / 2;
             return ans;
         }
-        else
-        {
-            return edges;
-        }
+
+        return edges;
     }
 
     /*
@@ -176,8 +174,8 @@ namespace ariel
     */
     bool Graph::isContains(const Graph &g) const
     {
-        int n = this->adjacencyMatrix.size();
-        int m = g.adjacencyMatrix.size();
+        size_t n = this->adjacencyMatrix.size();
+        size_t m = g.adjacencyMatrix.size();
 
         if (m > n)
             return false; // If submatrix is larger than the matrix, it can't be a submatrix
@@ -197,8 +195,9 @@ namespace ariel
                         }
                     }
                 }
-                if (isSubMatrix)
-                    return true; // If all elements matched, return true
+                if (isSubMatrix){
+                    return true;  // If all elements matched, return true
+                }
             }
         }
         return false; // No matching submatrix found
@@ -525,8 +524,10 @@ namespace ariel
         // If g contains this, return true as this < g.
         if (g.isContains(*this))
         {
-            if (g.getNumVertices() == this ->getNumVertices()){
-                return false; // because in this case it means that they are the same matrix.
+            if (g.getNumVertices() == this->getNumVertices())
+            {
+                // If the number of vertices is the same, it means they are the same matrix
+                return false;
             }
             return true;
         }
