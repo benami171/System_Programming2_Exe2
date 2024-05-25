@@ -381,25 +381,41 @@ vector<vector<int>> convertToUndirected(Graph &graph)
     {
         for (size_t j = i + 1; j < numVertices; j++)
         {
-            if (newAdjMatrix[i][j] != 0 && newAdjMatrix[j][i] != 0)
+            if (newAdjMatrix[i][j] != 0 && newAdjMatrix[j][i] == 0)
             {
-                // If there are edges in both directions, take the average of the two weights
-                newAdjMatrix[i][j] = newAdjMatrix[j][i] = (newAdjMatrix[i][j] + newAdjMatrix[j][i]) / 2;
-            }
-            else if (newAdjMatrix[i][j] != 0)
-            {
-                // If there's only an edge from i to j, use its weight for the edge from j to i
                 newAdjMatrix[j][i] = newAdjMatrix[i][j];
             }
-            else if (newAdjMatrix[j][i] != 0)
+            else if (newAdjMatrix[i][j] == 0 && newAdjMatrix[j][i] != 0) 
             {
-                // If there's only an edge from j to i, use its weight for the edge from i to j
-                newAdjMatrix[i][j] = newAdjMatrix[j][i];
+                newAdjMatrix[i][j] = newAdjMatrix[j][i]; 
             }
         }
     }
 
     return newAdjMatrix;
+}
+
+void appendSetToString(vector<int> &set, string &result)
+{
+    for (size_t i = 0; i < set.size(); i++)
+    {
+        result += to_string(set[i]);
+        if (i != set.size() - 1)
+        {
+            result += ",";
+        }
+    }
+}
+
+string constructResult(vector<vector<int>> &groups)
+{
+    string result = "Graph is Bipartite and those are the two sets: ";
+    result += "A={";
+    appendSetToString(groups[0], result);
+    result += "} B={";
+    appendSetToString(groups[1], result);
+    result += "}";
+    return result;
 }
 
 string Algorithms::isBipartite(Graph &graph)
@@ -470,27 +486,8 @@ string Algorithms::isBipartite(Graph &graph)
 
     // If we reach here, then all vertices can be colored with alternate color
     // So, we return the two sets of vertices
-    string result = "Graph is Bipartite and those are the two sets: ";
-    result += "A={";
-    for (int i = 0; i < groups[0].size(); i++)
-    {
-        result += to_string(groups[0][(size_t)i]);
-        if (i != groups[0].size() - 1)
-        {
-            result += ",";
-        }
-    }
-    result += "} B={";
-    for (int i = 0; i < groups[1].size(); i++)
-    {
-        result += to_string(groups[1][(size_t)i]);
-        if (i != groups[1].size() - 1)
-        {
-            result += ",";
-        }
-    }
-    result += "}";
-    return result;
+
+    return constructResult(groups);
 }
 
 // This function checks if a graph contains a negative cycle.
