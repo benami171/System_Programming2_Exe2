@@ -588,11 +588,6 @@ namespace ariel
             }
             return true; // All elements matched
         }
-        // If the number of vertices are different, check if neither graph is less than the other
-        else if (!((*this) < g) && !(g < *this))
-        {
-            return true; // Graphs are equal in terms of structural connections
-        }
         return false; // Graphs are not equal
     }
 

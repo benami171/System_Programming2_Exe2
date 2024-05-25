@@ -463,6 +463,14 @@ TEST_CASE("Test comparison operators >,<,>=,<=,==,!=")
         {2, 0}};
     g8.loadGraph(graph8);
 
+    ariel::Graph g9;
+    vector<vector<int>> graph9 = {
+        {0,1,0},
+        {2,0,0},
+        {0,0,0}};
+       
+    g9.loadGraph(graph9);
+    CHECK((g9 == g8) == false);
     CHECK((g7 < g8) == true); // g8 doesnt contain g7 but it has more edges.
 
 }
