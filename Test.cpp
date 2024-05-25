@@ -135,8 +135,23 @@ TEST_CASE("Test graph subtraction")
         CHECK((g2 != g3) == false);
     }
 
+    ariel::Graph g10;
+    vector<vector<int>> graph10{
+        {0, -1, 0},
+        {2, 0, 1},
+        {0, -3, 0}};
+    g10.loadGraph(graph10);
+    ariel::Graph g11;
+    vector<vector<int>> expectedGraph{
+        {0, 1, 0},
+        {-2, 0, -1},
+        {0, 3, 0}};
+    g11.loadGraph(expectedGraph);
+
     SUBCASE("Test unary -")
     {
+        ariel::Graph g12 = -g10;
+        CHECK((g11 == g12) == true);
         ariel::Graph g5 = -g1;
         CHECK((g5 == g4) == false);
     }
@@ -412,7 +427,7 @@ TEST_CASE("Test comparison operators >,<,>=,<=,==,!=")
         {1, 2, 0}};
     g2.loadGraph(graph2);
 
-    CHECK((g1 < g2) == false); 
+    CHECK((g1 < g2) == false);
     CHECK((g1 > g2) == true); // the graphs are not contained in each other and g2 is undirected graph with less edges.
     CHECK((g1 <= g2) == false);
     CHECK((g1 >= g2) == true); // g1 > g2
@@ -426,7 +441,7 @@ TEST_CASE("Test comparison operators >,<,>=,<=,==,!=")
     g3.loadGraph(graph3);
     ariel::Graph g4;
     vector<vector<int>> graph4 = {
-        {0, 0 ,5},
+        {0, 0, 5},
         {0, 0, 0},
         {5, 0, 0}};
     g4.loadGraph(graph4);
@@ -465,14 +480,13 @@ TEST_CASE("Test comparison operators >,<,>=,<=,==,!=")
 
     ariel::Graph g9;
     vector<vector<int>> graph9 = {
-        {0,1,0},
-        {2,0,0},
-        {0,0,0}};
-       
+        {0, 1, 0},
+        {2, 0, 0},
+        {0, 0, 0}};
+
     g9.loadGraph(graph9);
     CHECK((g9 == g8) == false);
     CHECK((g7 < g8) == true); // g8 doesnt contain g7 but it has more edges.
-
 }
 
 TEST_CASE("Invalid operations")

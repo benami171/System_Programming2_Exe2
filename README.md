@@ -24,7 +24,7 @@ This operator is used to subtract one graph from another. It takes two graphs as
 This operator is used to subtract a graph from the current graph. It takes a graph as input and assigns the new value to the current graph. If the input graph is not of the same size as the current graph, an exception is thrown. Usage example: `g1 -= g2`.
 
 - `-Graph`: 
-Unary- ,for each cell in the matrix, in case its not zero, if the value is positive it will turn to negative, and if the value is positive it will turn to be negative. like *(-1) each cell. Usage example: `-g`.
+Unary- ,for each cell in the matrix, in case its not zero, like *(-1) each cell. Usage example: `-g`.
 
 ### Multiplication Operators
 
