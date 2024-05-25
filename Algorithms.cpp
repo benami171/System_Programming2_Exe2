@@ -362,7 +362,8 @@ string Algorithms::findCycle(Graph &graph)
 
 string Algorithms::isContainsCycle(Graph &graph)
 {
-    if (graph.getNumVertices() < 2){
+    if (graph.getNumVertices() < 2)
+    {
         return "0";
     }
 
@@ -385,9 +386,9 @@ vector<vector<int>> convertToUndirected(Graph &graph)
             {
                 newAdjMatrix[j][i] = newAdjMatrix[i][j];
             }
-            else if (newAdjMatrix[i][j] == 0 && newAdjMatrix[j][i] != 0) 
+            else if (newAdjMatrix[i][j] == 0 && newAdjMatrix[j][i] != 0)
             {
-                newAdjMatrix[i][j] = newAdjMatrix[j][i]; 
+                newAdjMatrix[i][j] = newAdjMatrix[j][i];
             }
         }
     }
