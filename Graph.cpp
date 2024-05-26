@@ -14,7 +14,7 @@ namespace ariel
 {
 
     // Determines the weight type of the graph.
-    int whatWeightType(vector<vector<int>> &matrix)
+    int whatWeightType(const vector<vector<int>> &matrix)
     {
         int type = 0;
         size_t matSize = matrix.size();
@@ -35,11 +35,10 @@ namespace ariel
         return type;
     }
 
-
     // Loads a graph from an adjacency matrix. Throws an exception if the matrix is not square,
     // if the diagonal is not zero.
     // if the graph is undirected and the matrix is not symmetric, we set the graph to be directed.
-    void Graph::loadGraph(vector<vector<int>> &matrix)
+    void Graph::loadGraph(const vector<vector<int>> &matrix)
     {
         if (matrix.empty() || matrix[0].size() < 2)
         {
@@ -196,8 +195,9 @@ namespace ariel
                         }
                     }
                 }
-                if (isSubMatrix){
-                    return true;  // If all elements matched, return true
+                if (isSubMatrix)
+                {
+                    return true; // If all elements matched, return true
                 }
             }
         }
@@ -262,6 +262,22 @@ namespace ariel
             {
                 // adding the corresponding elements of the two matrices.
                 this->adjacencyMatrix[i][j] += g.adjacencyMatrix[i][j];
+            }
+        }
+
+        return *this;
+    }
+
+    // Overloading the += operator to add a scalar to each cell of the adjacency matrix.
+    Graph &Graph::operator+=(const int scalar)
+    {
+        // iterating over each row of the matrix.
+        for (size_t i = 0; i < this->adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = 0; j < this->adjacencyMatrix[i].size(); j++)
+            {
+                // adding the scalar to each cell of the matrix.
+                this->adjacencyMatrix[i][j] += scalar;
             }
         }
 

@@ -22,6 +22,7 @@ public:
 // ADDITION OPERATORS
     Graph operator+(const Graph &g);
     Graph& operator+=(const Graph &g);
+    Graph& operator+=(const int scalar);
     Graph operator+() const;
 
 // INC/DEC OPERATORS
@@ -69,7 +70,7 @@ public:
 
     bool getContainsNegativeCycle();
 
-    void loadGraph(vector<vector<int>> &matrix);
+    void loadGraph(const vector<vector<int>> &matrix);
     
     bool getIsDirected() const;
     size_t getNumVertices() const;
