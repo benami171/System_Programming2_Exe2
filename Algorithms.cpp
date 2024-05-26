@@ -270,23 +270,23 @@ bool Algorithms::isConnected(Graph &graph)
 
 string Algorithms::shortestPath(Graph &graph, int start, int end)
 {
-
+    // Check if the start and end vertices are valid
     if (start < 0 || end < 0 || start >= graph.getNumVertices() || end >= graph.getNumVertices())
     {
         return "Invalid start or end vertex.";
     }
 
-    if (graph.getWeightsType() == 0)
+    if (graph.getWeightsType() == 0) //unweighted graph
     {
         return BFS(graph, start, end);
     }
 
-    else if (graph.getWeightsType() == 1)
+    else if (graph.getWeightsType() == 1)//positive weights
     {
         return Dijkstra(graph, start, end);
     }
 
-    return bellmanford(graph, start, end);
+    return bellmanford(graph, start, end);//negative weights
 }
 
 // This function is a helper function used to detect a cycle in a graph.

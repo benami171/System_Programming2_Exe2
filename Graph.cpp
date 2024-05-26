@@ -35,6 +35,7 @@ namespace ariel
         return type;
     }
 
+
     // Loads a graph from an adjacency matrix. Throws an exception if the matrix is not square,
     // if the diagonal is not zero.
     // if the graph is undirected and the matrix is not symmetric, we set the graph to be directed.
@@ -313,6 +314,7 @@ namespace ariel
                 }
             }
         }
+        this->weightType = whatWeightType(this->adjacencyMatrix);
         return *this;
     }
 
@@ -378,7 +380,7 @@ namespace ariel
                 this->adjacencyMatrix[i][j] -= g.adjacencyMatrix[i][j];
             }
         }
-
+        this->weightType = whatWeightType(this->adjacencyMatrix);
         return *this;
     }
 
@@ -396,7 +398,7 @@ namespace ariel
                 }
             }
         }
-
+        resGraph.setWeightsType(whatWeightType(resGraph.adjacencyMatrix));
         return resGraph;
     }
 
