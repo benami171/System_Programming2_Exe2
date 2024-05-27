@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include "Graph.hpp"
 #include <climits>
-#include <iomanip>
+#include <iomanip> // for std::setw
 
 using namespace std;
 
@@ -26,7 +26,7 @@ namespace ariel
                 {
                     return -1;
                 }
-                if (matrix[i][j] > 0)
+                if (matrix[i][j] > 1)
                 {
                     type = 1;
                 }
@@ -35,9 +35,11 @@ namespace ariel
         return type;
     }
 
-    // Loads a graph from an adjacency matrix. Throws an exception if the matrix is not square,
-    // if the diagonal is not zero.
-    // if the graph is undirected and the matrix is not symmetric, we set the graph to be directed.
+    /*
+     Loads a graph from an adjacency matrix.
+     Throws an exception if the matrix is not square or if the diagonal is not zero.
+     If the graph is undirected and the matrix is not symmetric, we set the graph to be directed.
+    */
     void Graph::loadGraph(const vector<vector<int>> &matrix)
     {
         if (matrix.empty() || matrix[0].size() < 2)
@@ -167,8 +169,7 @@ namespace ariel
         then we will check if the adjacency matrix of g2 is a submatrix of the adjacency matrix of g1.
         both of the graphs are represented as adjacency matrices,
         so we know the diagonal should be all zeros, so we dont need to go over
-        all the possibilities of the submatrices. we will
-
+        all the possibilities of the submatrices.
         will helps us in operator< overloading.
 
     */

@@ -12,8 +12,10 @@
 using namespace std;
 using namespace ariel;
 
-// Enum to represent the color of a vertex in the graph
-// used in the cycle detection algorithm
+/*
+ Enum to represent the color of a vertex in the graph
+ used in the cycle detection algorithm
+*/
 enum Color
 {
     WHITE,
@@ -21,7 +23,9 @@ enum Color
     BLACK
 };
 
-// Helper function to construct the path from the parent array
+/*
+ Helper function to construct the path from the parent array
+*/
 string constructPath(const vector<int> &parent, int start, int end)
 {
     if (parent[(size_t)end] == -1)
@@ -276,24 +280,26 @@ string Algorithms::shortestPath(Graph &graph, int start, int end)
         return "Invalid start or end vertex.";
     }
 
-    if (graph.getWeightsType() == 0) //unweighted graph
+    if (graph.getWeightsType() == 0) // unweighted graph
     {
-        return BFS(graph, start, end);
+        return BFS(graph, start, end); // O(m+n)
     }
 
-    else if (graph.getWeightsType() == 1)//positive weights
+    else if (graph.getWeightsType() == 1) // positive weights
     {
-        return Dijkstra(graph, start, end);
+        return Dijkstra(graph, start, end); // O(m+n*log(n))
     }
-
-    return bellmanford(graph, start, end);//negative weights
+    // negative weights
+    return bellmanford(graph, start, end); // O(m*n)
 }
 
-// This function is a helper function used to detect a cycle in a graph.
-// It uses Depth-First Search (DFS) to traverse the graph.
-// It marks each visited node as 'GRAY' and unvisited nodes as 'WHITE'.
-// If it visits a node that is already marked as 'GRAY', it means that a cycle is detected.
-// If a node is completely visited, it is marked as 'BLACK' and removed from the path.
+/*
+ helper function used to detect a cycle in a graph.
+ It uses Depth-First Search (DFS) to traverse the graph.
+ It marks each visited node as 'GRAY' and unvisited nodes as 'WHITE'.
+ If it visits a node that is already marked as 'GRAY', it means that a cycle is detected.
+ If a node is completely visited, it is marked as 'BLACK' and removed from the path.
+*/
 string containsCycleUtil(Graph &graph, size_t u, vector<Color> *color, vector<int> *parent, vector<int> *cyclePath)
 {
     // Marking the vertex as visited and
@@ -336,12 +342,12 @@ string containsCycleUtil(Graph &graph, size_t u, vector<Color> *color, vector<in
 
 // This function is used to find a cycle in a graph.
 // It initializes all nodes as 'WHITE' (unvisited) and starts DFS from each unvisited node.
-// If a cycle is detected during the DFS, it returns a message indicating that a cycle is detected.
-// If no cycle is detected after visiting all nodes, it returns a message indicating that no cycle is detected.
+// If a cycle is detected during the DFS, meaning that a node that is 'GRAY' is visited again,
+// the function returns the cycle path.
 string Algorithms::findCycle(Graph &graph)
 {
     size_t numVertices = graph.getNumVertices();
-    vector<Color> color(numVertices, WHITE);
+    vector<Color> color(numVertices, WHITE); //
     vector<int> parentVertx(numVertices, -1);
     vector<int> cyclePath;
 
@@ -491,7 +497,12 @@ string Algorithms::isBipartite(Graph &graph)
     return constructResult(groups);
 }
 
-// This function checks if a graph contains a negative cycle.
+/*
+ * This function checks if a graph contains a negative cycle.
+ * 1. if there are no negative edges obviously there is no negative cycle.
+ * 2. if the graph is already marked as containing a negative cycle,(in case we ran bellman ford) return the value immediately.
+ * 3.
+ */
 string Algorithms::negativeCycle(Graph &graph)
 {
 
