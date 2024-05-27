@@ -426,16 +426,18 @@ string constructResult(vector<vector<int>> &groups)
 }
 
 
-// 1. Initialize two groups for vertices.
-// 2. Convert directed graphs to undirected.
-// 3. Initialize a color array for vertices (default color -1).
-// 4. Iterate over vertices:
-//    a. Color uncolored vertices and enqueue them for BFS.
-//    b. Add colored vertices to corresponding group.
-//    c. For each vertex 'v' in the queue:
-//       i. If 'v' is uncolored and connected, color it opposite to its neighbor, add to group, and enqueue for BFS.
-//       ii. If 'v' is connected and has same color as neighbor, return "Graph is not Bipartite".
-// 5. If all vertices are colored alternately, return the two sets of vertices.
+/* 1. Initialize two groups for vertices.
+ 2. Convert directed graphs to undirected.
+ 3. Initialize a color array for vertices (default color -1).
+ 4. Iterate over vertices:
+    a. Color uncolored vertices and enqueue them for BFS.
+    b. Add colored vertices to corresponding group.
+    c. For each vertex 'v' in the queue:
+       i. If 'v' is uncolored and connected, color it opposite to its neighbor, add to group, and enqueue for BFS.
+       ii. If 'v' is connected and has same color as neighbor, return "Graph is not Bipartite".
+ 5. If all vertices are colored alternately, return the two sets of vertices.
+*/
+
 string Algorithms::isBipartite(Graph &graph)
 {
     vector<vector<int>> groups(2);
