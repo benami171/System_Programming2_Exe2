@@ -69,6 +69,7 @@ namespace ariel
                 }
             }
         }
+        
         this->weightType = whatWeightType(matrix);
     }
 
