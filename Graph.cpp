@@ -104,7 +104,7 @@ namespace ariel
         this->containsNegativeCycle = flag;
     }
 
-    bool Graph::getContainsNegativeCycle()
+    bool Graph::getContainsNegativeCycle() const
     {
         return this->containsNegativeCycle;
     }
