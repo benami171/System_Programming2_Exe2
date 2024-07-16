@@ -1,5 +1,4 @@
-#ifndef GRAPH_HPP
-#define GRAPH_HPP
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -87,4 +86,4 @@ public:
 
 
 }
-#endif
+
