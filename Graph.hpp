@@ -68,7 +68,7 @@ public:
 
     void printGraph();
 
-    bool getContainsNegativeCycle();
+    bool getContainsNegativeCycle() const;
 
     void loadGraph(const vector<vector<int>> &matrix);
     
